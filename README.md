@@ -61,9 +61,11 @@ kubectl delete pod nginx
 
 Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
 
-Man page of pod: kubectl explain pod
+**Man page of pod:** kubectl explain pod
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5be73522-ff1b-449d-bb74-1efa52f5aa0f)
+
+**Note:** Container does not have any IP address but Pod have.
 
 kubectl get pods -o wide
 
