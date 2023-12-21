@@ -94,10 +94,6 @@ View the logs for all containers in a pod
 kubectl logs <pod_name> --all-containers
 
 
-
-
-
-
 **Kubernetes Declarative vs imperative Commands**
 
 
