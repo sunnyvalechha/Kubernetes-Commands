@@ -57,6 +57,19 @@ kubectl delete -f demo.yaml -n demo-k8-namespace
 
 kubectl delete pod nginx
 
+**Pods**
+
+Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
+
+Man page of pod: kubectl explain pod
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5be73522-ff1b-449d-bb74-1efa52f5aa0f)
+
+kubectl get pods -o wide
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7717a09b-bd0f-4b75-8bad-9cdd2ebc5e02)
+
+
 
 
 
