@@ -33,10 +33,26 @@ Namespaces are like virtual cluster inside the cluster. A namespace isolates the
 
   kubectl config view | grep namespace
 
+  **Create namespace through manifest file**
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/940b9663-f3b5-44f2-9628-9b2eb5455da7)
+
+  kubectl apply -f ns.yaml
   
+Note: In above comnand, apply means create and run
 
 
+**Run a pod in diffrent namespace**
 
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/64be4a13-9154-4eb5-bf54-e1e5b392c29f)
+
+kubectl apply -f demo.yaml -n demo-k8-namespace
+
+**Delete pods by two ways**
+
+kubectl delete -f demo.yaml -n demo-k8-namespace
+
+kubectl delete pod nginx
 
 
 
