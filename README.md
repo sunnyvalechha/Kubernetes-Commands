@@ -75,22 +75,28 @@ kubectl get pods -o wide
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9d453fed-8ba9-440b-83e2-7bb9ad433ea3)
 
-Print the logs for the last 6 hours for a pod
+**Print the logs for the last 6 hours for a pod**
+
 kubectl logs --since=6h <pod_name>
 
-Get the most recent 50 lines of logs for a pod
+**Get the most recent 50 lines of logs for a pod**
+
 kubectl logs --tail=50 <pod_name>
 
-Print the logs for a pod and follow new logs
+**Print the logs for a pod and follow new logs**
+
 k logs -f test-pod
 
-Print the logs for a container in a pod
+**Print the logs for a container in a pod**
+
 kubectl logs -c <container_name> <pod_name>
 
-View the logs for a previously failed pod
+**View the logs for a previously failed pod**
+
 kubectl logs --previous <pod_name>
 
-View the logs for all containers in a pod
+**View the logs for all containers in a pod**
+
 kubectl logs <pod_name> --all-containers
 
 
