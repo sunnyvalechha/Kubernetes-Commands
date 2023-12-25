@@ -1,3 +1,24 @@
+**Kubernetes Cluster / Architecture**
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/539148b5-1fd7-49f2-b3a7-c44e773085bb)
+
+* Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
+* Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
+
+**Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container.
+- It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
+
+**Microservices:** Collection of small, independent services that work together to perform specific tasks.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/165a9a5b-3601-4d3d-be20-28ec09aec62e)
+
+
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/31f9a2f8-a25a-40c5-841b-ad3050b3cd7e)
+
+
+
+
 **Introduction to ETCD**
 
 ETCD is a consistent and distributed key-value store used for discovering services.
