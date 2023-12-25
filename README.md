@@ -2,19 +2,157 @@
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/539148b5-1fd7-49f2-b3a7-c44e773085bb)
 
-* Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
-* Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
+Below are the major components of Kubernetes and what they do:
 
-**Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container.
-- It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
+**Master Node / Controller**
 
-**Microservices:** Collection of small, independent services that work together to perform specific tasks.
+A master node is where all the major processes are run and manage the cluster. There can be more than one master node for high availability.
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/165a9a5b-3601-4d3d-be20-28ec09aec62e)
+Key Features:
+
+  **API Server:** Entry point to Kubernetes cluster for the user interface, API, and CLI
+
+  **Controller Manager:** Tracks and manages the containers in the cluster
+  
+  **Scheduler:** Determines which worker nodes will be used when based on the application being scheduled
+  
+  **Etcd:** A key-value store that contains the state of the cluster
+
+**Worker Node**
+  
+* Runs the containers (inside the pods)
+
+Key Features:
+  
+  **Kubelet:**
+  
+ * Primary Kubernetes ‘agent’ that runs on each node
+    
+ * Communicates to the Master via API server
+    
+  **Pods**
+   
+  * Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
+    
+  * Pods are ephimeral in nature, means the same pod cannot redeployed once die, but another pod will be up with the same configurations.
+
+- Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
+- Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
+
+  **Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container.
+
+  - It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
+
+  **Microservices:** Collection of small, independent services that work together to perform specific tasks.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/31f9a2f8-a25a-40c5-841b-ad3050b3cd7e)                            ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/165a9a5b-3601-4d3d-be20-28ec09aec62e)
+
+  **Kubernetes Objects**
+
+  - Kubernetes uses objects to represent the state of the cluster.
+
+    List of kubernetes objects are:
+
+    1. Pod
+    2. Service
+    3. Namespace
+    4. Volume
+    5. Replicasets
+    6. Secrets
+    7. Config maps
+    8. Deployments
+    9. Jobs
+    10. Daemonsets
+
+  
+  **Kubectl**: Kubectl is a command line tool to run kubernetes commands.
+
+  **Kubernetes Namespaces**
+
+Namespaces are like virtual cluster inside the cluster. A namespace isolates the resources from the resources of other namespace. For example, we must have diffrent names for objects such as pods,services and deployments live in a namespace but we can have same name for these objects in two diffrent namespaces.
+
+  kubectl get namespaces
+
+  kubectl get pod -n kube-system
+
+  kubectl get pods --all-namespaces
+
+  kubectl create namespace demo-k8-namespace
+
+  **Get all resources in a namespace and all resources in all namespace**
+  
+  kubectl get all
+
+  kubectl get all -A
+
+  **Set specific namespace permanently**
+
+  kubectl config set-context $(kubectl config current-context) --namespace=kube-system
+
+  kubectl get config
+
+  kubectl config view | grep namespace
+
+  **Create namespace through manifest file**
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/940b9663-f3b5-44f2-9628-9b2eb5455da7)
+
+  kubectl apply -f ns.yaml
+  
+Note: In above comnand, apply means create and run
+
+**Run a pod in diffrent namespace**
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/64be4a13-9154-4eb5-bf54-e1e5b392c29f)
+
+kubectl apply -f demo.yaml -n demo-k8-namespace
+
+  **Man page of pod:** kubectl explain pod
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5be73522-ff1b-449d-bb74-1efa52f5aa0f)
+
+  **Note:** Container does not have any IP address but Pods have.
+
+  kubectl get pods -o wide
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7717a09b-bd0f-4b75-8bad-9cdd2ebc5e02)
+
+**Check logs**
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9d453fed-8ba9-440b-83e2-7bb9ad433ea3)
+
+**Print the logs for the last 6 hours for a pod**
+
+kubectl logs --since=6h <pod_name>
+
+**Get the most recent 50 lines of logs for a pod**
+
+kubectl logs --tail=50 <pod_name>
+
+**Print the logs for a pod and follow new logs**
+
+k logs -f test-pod
+
+**Print the logs for a container in a pod**
+
+kubectl logs -c <container_name> <pod_name>
+
+**View the logs for a previously failed pod**
+
+kubectl logs --previous <pod_name>
+
+**View logs for all containers in a pod**
+
+kubectl logs <pod_name> --all-containers
+
+  **Delete pods by two ways**
+
+  kubectl delete -f demo.yaml -n demo-k8-namespace
+
+  kubectl delete pod nginx
 
 
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/31f9a2f8-a25a-40c5-841b-ad3050b3cd7e)
 
 
 
@@ -81,24 +219,9 @@ Two operations of kube-scheduler:
 
   systemctl status kubelet
 
-  **Kubectl**: Kubectl is a command line tool to run kubernetes commands. 
+  
 
-  **Kubernetes Objects**
-
-  - Kubernetes uses objects to represent the state of the cluster.
-
-  List of kubernetes objects are:
-
-  1. Pod
-  2. Service
-  3. Namespace
-  4. Volume
-  5. Replicasets
-  6. Secrets
-  7. Config maps
-  8. Deployments
-  9. Jobs
-  10. Daemonsets
+  
 
 **Command auto completion**
 
@@ -110,95 +233,19 @@ alias k=kubectl
 
 complete -o default -F __start_kubectl k
 
-**Kubernetes Namespaces**
 
-Namespaces are like virtual cluster inside the cluster. A namespace isolates the resources from the resources of other namespace. For example, we must have diffrent names for objects such as pods,services and deployments live in a namespace but we can have same name for these objects in two diffrent namespaces.
 
-  kubectl get namespaces
-
-  kubectl get pod -n kube-system
-
-  kubectl get pods --all-namespaces
-
-  kubectl create namespace demo-k8-namespace
-
-  **Get all resources in a namespace and all resources in all namespace**
   
-  kubectl get all
 
-  kubectl get all -A
 
-  **Set specific namespace permanently**
 
-  kubectl config set-context $(kubectl config current-context) --namespace=kube-system
 
-  kubectl get config
 
-  kubectl config view | grep namespace
 
-  **Create namespace through manifest file**
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/940b9663-f3b5-44f2-9628-9b2eb5455da7)
 
-  kubectl apply -f ns.yaml
-  
-Note: In above comnand, apply means create and run
 
-**Run a pod in diffrent namespace**
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/64be4a13-9154-4eb5-bf54-e1e5b392c29f)
-
-kubectl apply -f demo.yaml -n demo-k8-namespace
-
-**Delete pods by two ways**
-
-kubectl delete -f demo.yaml -n demo-k8-namespace
-
-kubectl delete pod nginx
-
-**Pods**
-
-Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
-
-Pods are ephimeral in nature, means the same pod cannot redeployed once die, but another pod will be up with the same configurations.
-
-**Man page of pod:** kubectl explain pod
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5be73522-ff1b-449d-bb74-1efa52f5aa0f)
-
-**Note:** Container does not have any IP address but Pods have.
-
-kubectl get pods -o wide
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7717a09b-bd0f-4b75-8bad-9cdd2ebc5e02)
-
-**Check logs**
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9d453fed-8ba9-440b-83e2-7bb9ad433ea3)
-
-**Print the logs for the last 6 hours for a pod**
-
-kubectl logs --since=6h <pod_name>
-
-**Get the most recent 50 lines of logs for a pod**
-
-kubectl logs --tail=50 <pod_name>
-
-**Print the logs for a pod and follow new logs**
-
-k logs -f test-pod
-
-**Print the logs for a container in a pod**
-
-kubectl logs -c <container_name> <pod_name>
-
-**View the logs for a previously failed pod**
-
-kubectl logs --previous <pod_name>
-
-**View logs for all containers in a pod**
-
-kubectl logs <pod_name> --all-containers
 
 * **How kubernetes works in production enviroment?**
 
