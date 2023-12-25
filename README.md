@@ -1,6 +1,21 @@
-**Kubernetes Cluster / Architecture**
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/539148b5-1fd7-49f2-b3a7-c44e773085bb)
+Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
+
+Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
+
+  **Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container. It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
+
+  **Microservices:** Collection of small, independent services that work together to perform specific tasks.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/31f9a2f8-a25a-40c5-841b-ad3050b3cd7e)                            ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/165a9a5b-3601-4d3d-be20-28ec09aec62e)
+
+
+
+
+
+# Kubernetes Cluster / Architecture
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/84a5c531-1a7e-45f6-803f-3318aebf1629)
 
 Below are the major components of Kubernetes and what they do:
 
@@ -10,13 +25,13 @@ A master node is where all the major processes are run and manage the cluster. T
 
 Key Features:
 
-  **API Server:** Entry point to Kubernetes cluster for the user interface, API, and CLI
+* **API Server:** Entry point to Kubernetes cluster for the user interface, API, and CLI
 
-  **Controller Manager:** Tracks and manages the containers in the cluster
+* **Controller Manager:** Tracks and manages the containers in the cluster
   
-  **Scheduler:** Determines which worker nodes will be used when based on the application being scheduled
+* **Scheduler:** Determines which worker nodes will be used when based on the application being scheduled
   
-  **Etcd:** A key-value store that contains the state of the cluster
+* **Etcd:** A key-value store that contains the state of the cluster
 
 **Worker Node**
   
@@ -29,69 +44,69 @@ Key Features:
  * Primary Kubernetes ‘agent’ that runs on each node
     
  * Communicates to the Master via API server
-    
+
+
+  **Kubernetes Objects**
+
+  - Kubernetes uses objects to represent the state of the cluster. Below are the list of kubernetes objects:
+
+    1. Namespace
+    2. Pod
+    3. Service
+    4. Deployments
+    5. Replicasets
+    6. Volumes
+    7. Secrets
+    8. Config maps
+    9. Jobs
+    10. Daemonsets
+
+
+   # Understand each object with Exmaples
+  
+  **Kubectl**: Kubectl is a command line tool to run kubernetes commands.
+
+  **Command auto completion**
+
+source <(kubectl completion bash)
+
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+alias k=kubectl
+
+complete -o default -F __start_kubectl k
+
   **Pods**
    
   * Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
     
   * Pods are ephimeral in nature, means the same pod cannot redeployed once die, but another pod will be up with the same configurations.
 
-- Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
-- Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
-
-  **Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container.
-
-  - It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
-
-  **Microservices:** Collection of small, independent services that work together to perform specific tasks.
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/31f9a2f8-a25a-40c5-841b-ad3050b3cd7e)                            ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/165a9a5b-3601-4d3d-be20-28ec09aec62e)
-
-  **Kubernetes Objects**
-
-  - Kubernetes uses objects to represent the state of the cluster.
-
-    List of kubernetes objects are:
-
-    1. Pod
-    2. Service
-    3. Namespace
-    4. Volume
-    5. Replicasets
-    6. Secrets
-    7. Config maps
-    8. Deployments
-    9. Jobs
-    10. Daemonsets
-
-  
-  **Kubectl**: Kubectl is a command line tool to run kubernetes commands.
-
   **Kubernetes Namespaces**
 
 Namespaces are like virtual cluster inside the cluster. A namespace isolates the resources from the resources of other namespace. For example, we must have diffrent names for objects such as pods,services and deployments live in a namespace but we can have same name for these objects in two diffrent namespaces.
 
-  kubectl get namespaces
+   kubectl get namespaces
 
-  kubectl get pod -n kube-system
+   kubectl get pod -n kube-system
 
-  kubectl get pods --all-namespaces
+   kubectl get pods --all-namespaces
 
-  kubectl create namespace demo-k8-namespace
+   kubectl create namespace demo-k8-namespace
 
   **Get all resources in a namespace and all resources in all namespace**
   
-  kubectl get all
+   kubectl get all
 
-  kubectl get all -A
+   kubectl get all -A
 
   **Set specific namespace permanently**
 
-  kubectl config set-context $(kubectl config current-context) --namespace=kube-system
+   kubectl config set-context $(kubectl config current-context) --namespace=kube-system
 
-  kubectl get config
+   kubectl get config
 
-  kubectl config view | grep namespace
+   kubectl config view | grep namespace
 
   **Create namespace through manifest file**
 
@@ -150,6 +165,36 @@ kubectl logs <pod_name> --all-containers
   kubectl delete -f demo.yaml -n demo-k8-namespace
 
   kubectl delete pod nginx
+
+# Objects and their versions
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/2d367e61-e1f2-4314-ab31-9aace0f09bd9)
+
+  # How kubernetes works in production enviroment?
+
+- To create a container we write a command.
+
+  Example: docker run -it httpd /bin/bash
+
+- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature.
+- But, In a production enviroment it is not suggested to create a pod directly, instead we create a **Deployment**.
+- A **deployment** will create a Replicaset.
+- A **replicaset** will create a Pod.
+
+**Deployment:** It is a object, by which we can manage the scaling of the application while maintaining desired state and actual state of the pods, we can scale up and down of the pods.
+Basically, kubernetes deployment has enterprise level feature called as Auto-healing, Auto-scaling and Zero-downtime.
+
+**Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
+
+
+
+============================================================================================================
+
+**Kubernetes Declarative vs imperative Commands**
+
+1. Impative method: Configuration defines directly on Command line and run against Kubernetes cluster.
+2. Declarative method: Configuration defines through manfest files and then applies those definitions to the cluster.
+
 
 
 
@@ -223,15 +268,7 @@ Two operations of kube-scheduler:
 
   
 
-**Command auto completion**
 
-source <(kubectl completion bash)
-
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-
-alias k=kubectl
-
-complete -o default -F __start_kubectl k
 
 
 
@@ -246,28 +283,6 @@ complete -o default -F __start_kubectl k
 
 
 
-
-* **How kubernetes works in production enviroment?**
-
-- To create a container we write a command.
-
-  Example: docker run -it httpd /bin/bash
-
-- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature.
-- But, In a production enviroment it is not suggested to create a pod directly, instead we create a **Deployment**.
-- A **deployment** will create a Replicaset.
-- A **replicaset** will create a Pod.
-
-**Deployment:** It is a object, by which we can manage the scaling of the application while maintaining desired state and actual state of the pods, we can scale up and down of the pods.
-Basically, kubernetes deployment has enterprise level feature called as Auto-healing, Auto-scaling and Zero-downtime.
-
-**Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
-
-
-**Kubernetes Declarative vs imperative Commands**
-
-1. Impative method: Configuration defines directly on Command line and run against Kubernetes cluster.
-2. Declarative method: Configuration defines through manfest files and then applies those definitions to the cluster.
 
 
 
