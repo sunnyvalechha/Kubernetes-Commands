@@ -175,24 +175,28 @@ kubectl logs -c <container_name> <pod_name>
 
 kubectl logs --previous <pod_name>
 
-**View the logs for all containers in a pod**
+**View logs for all containers in a pod**
 
 kubectl logs <pod_name> --all-containers
 
-* How kubernetes works in production enviroment?
+* **How kubernetes works in production enviroment?**
 
 - To create a container we write a command.
 
   Example: docker run -it httpd /bin/bash
 
-- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature
+- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature.
+- But, In a production enviroment it is not suggested to create a pod directly, instead we create a **Deployment**.
+- A **deployment** will create a Replicaset.
+- A **replicaset** will create a Pod.
+
+**Deployment:** It is a object, by which we can manage the scaling of the application while maintaining desired state and actual state of the pods, we can scale up and down of the pods.
+Basically, kubernetes deployment has enterprise level feature called as Auto-healing, Auto-scaling and Zero-downtime.
+
+**Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
 
 
 **Kubernetes Declarative vs imperative Commands**
-
-
-
-
 
 1. Impative method: Configuration defines directly on Command line and run against Kubernetes cluster.
 2. Declarative method: Configuration defines through manfest files and then applies those definitions to the cluster.
