@@ -179,6 +179,14 @@ kubectl logs --previous <pod_name>
 
 kubectl logs <pod_name> --all-containers
 
+* How kubernetes works in production enviroment?
+
+- To create a container we write a command.
+
+  Example: docker run -it httpd /bin/bash
+
+- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature
+
 
 **Kubernetes Declarative vs imperative Commands**
 
