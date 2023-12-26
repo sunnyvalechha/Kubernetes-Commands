@@ -156,6 +156,11 @@ kubectl apply -f demo.yaml -n demo-k8-namespace
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7717a09b-bd0f-4b75-8bad-9cdd2ebc5e02)
 
+* In above snapshot, we can see 1/1 under Ready section.
+
+  The second part is number of container in the pod.
+
+  The first part is number of container that are running.
 **Check logs**
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9d453fed-8ba9-440b-83e2-7bb9ad433ea3)
@@ -192,6 +197,10 @@ kubectl logs <pod_name> --all-containers
 
 # Objects and their versions
 
+      kubectl api-resources
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/1d047ee9-ca8f-47e2-870b-da61ac3bf02b)
+
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/2d367e61-e1f2-4314-ab31-9aace0f09bd9)
 
   # How kubernetes works in production enviroment?
@@ -213,6 +222,43 @@ Basically, kubernetes deployment has enterprise level feature called as Auto-hea
 
 **Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
 The term Replica set is replaced by Replication controller, both can be used but new and updated term is Replicaset
+
+
+vim deployment.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/88c974b3-2c8d-43b8-a717-76620267911d)
+
+      kubectl apply -f deploy.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/1b83abed-5483-4c3c-abd8-8e3ec81aa14a)
+
+Note: In above scenerio, we have create one resouce called deployment and rest taken care automatically because deployment provide auto-healing and zero-downtime in kubernetes.
+      Deployment take help of replicaset.
+      Replicaset is a kubernetes controller. A go-lang application which kubernetes has written and ensures for the specific behaviour 
+
+      kubectl get pods -w
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/bfcf3a42-28d9-47ea-9145-8f2d8376992d)
+
+Delete the pod nginx 
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7c2521ac-f6d7-4594-8583-cc672a4fb03b)
+
+Even before deleting the pod, the new pod will created
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/42794592-adde-4a96-a922-8cc0ed107636)
+
+# Service
+
+* Whenever a service is created an endpoint is automatically created by the same name.
+
+      kubectl get endpoints
+
+      kubectl describe service/<service-name>
+
+  
+
+
 
 
 
