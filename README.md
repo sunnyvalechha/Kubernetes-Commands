@@ -1,3 +1,26 @@
+Topics:
+
+* Introduction and Architecture of Kubernetes
+* Difference between monolithic and microservice architecture.
+* Controllers and worker nodes their keypoints and their working pattern.
+* What is Pod and how it works.
+* Namespaces.
+* Deployments
+* Replicasets
+* Imparative and Declaritive commands.
+* Labels and Selectors
+* Cluster maintainence Drain, Cordon and Uncordon
+* Taints and Tolerations
+* Role Base Access Control (RBAC)
+* Kubernetes Services
+* Kubernetes Secrets
+* Volumes, Persistent volume, Persistent volumee claim
+* Backup and Restore
+* Daemonsets
+* Config maps
+* Enviroment Variable in Kubernetes
+* Security and Certificate details
+
 
 Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
 
@@ -177,18 +200,22 @@ kubectl logs <pod_name> --all-containers
   Example: docker run -it httpd /bin/bash
 
 - Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature.
+  
 - But, In a production enviroment it is not suggested to create a pod directly, instead we create a **Deployment**.
+  
 - A **deployment** will create a Replicaset.
+  
 - A **replicaset** will create a Pod.
 
 **Deployment:** It is a object, by which we can manage the scaling of the application while maintaining desired state and actual state of the pods, we can scale up and down of the pods.
 Basically, kubernetes deployment has enterprise level feature called as Auto-healing, Auto-scaling and Zero-downtime.
 
 **Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
+The term Replica set is replaced by Replication controller, both can be used but new and updated term is Replicaset
 
 
 
-============================================================================================================
+====================================================================================
 
 **Kubernetes Declarative vs imperative Commands**
 
