@@ -152,16 +152,28 @@ kubectl apply -f demo.yaml -n demo-k8-namespace
 
   **Note:** Container does not have any IP address but Pods have.
 
-  kubectl get pods -o wide
+          kubectl get pods -o wide
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/7717a09b-bd0f-4b75-8bad-9cdd2ebc5e02)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/510a593f-90ec-46f3-93c9-67c427fdd077)
 
-* In above snapshot, we can see 1/1 under Ready section.
+
+* In above snapshot, we can see 1/1 under **Ready** section.
 
   The second part is number of container in the pod.
 
   The first part is number of container that are running.
-**Check logs**
+
+* To get inside the pod
+
+        kubectl exec -it nginx -- bash
+
+* If there are multiple containers, go to specific container with "-c"
+
+        kubectl exec -it <pod-name> -c <container-name> -- bash
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f26bb514-eff3-4922-b42d-727a7d46db80)
+  
+Run a demo pod to **Check logs**
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9d453fed-8ba9-440b-83e2-7bb9ad433ea3)
 
