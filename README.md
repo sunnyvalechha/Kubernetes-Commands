@@ -31,7 +31,8 @@ Kubernetes helps us to create mini/microservices applications while in docker we
 
 # Kubernetes Cluster / Architecture
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/84a5c531-1a7e-45f6-803f-3318aebf1629)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/334472c3-c162-4b25-a623-9b87d9617e5a)
+
 
 Below are the major components of Kubernetes and what they do:
 
@@ -138,7 +139,7 @@ Namespaces are like virtual cluster inside the cluster. A namespace isolates the
 
   kubectl apply -f ns.yaml
   
-Note: In above comnand, apply means create and run
+Note: In above command, apply means create and run
 
 **Run a pod in diffrent namespace**
 
@@ -267,6 +268,14 @@ Even before deleting the pod, the new pod will created
       kubectl get endpoints
 
       kubectl describe service/<service-name>
+
+* Types of Services:-
+  
+  1. ClusterIP: This is the default service, If we do not mention any type   in manifest file so ClusterIP automatically selected. We cannot use the IP outside the cluster when used as ClusterIP.
+
+  2. NodePort:
+
+  3. Load Balancer: 
 
   
 
