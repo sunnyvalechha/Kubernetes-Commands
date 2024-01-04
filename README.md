@@ -14,7 +14,7 @@ Topics:
 * Role Base Access Control (RBAC)
 * Kubernetes Services
 * Kubernetes Secrets
-* Volumes, Persistent volume, Persistent volumee claim
+* Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
 * Daemonsets
 * Config maps
