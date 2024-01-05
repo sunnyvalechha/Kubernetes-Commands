@@ -263,6 +263,22 @@ Even before deleting the pod, the new pod will created
 
 # Service
 
+* In the World of kubernetes the pods are created through replicaset via deployment and the pods can be easily dead and non operation that is fine, but the IP address of the pod will be changed every time when the pod is dead, that is the Issue kubernetes services are resolving.
+
+* On top of deployemnt Service will be created. So instead of accessing pod directly the request will re-direct to the Service and acts as a **Load Balancer** because it uses a component called as kube-proxy.
+
+* Here, service will directly connected to pods but there might a scnerio where service also faced the same problem because the pod Ip can be changed. So service also resolving this issue via **service discovery** by using **Labels and Selectors**.
+
+* Another thing that service offers is **Expose the pod to external world**.
+
+* 
+
+
+
+The Short name of service is "svc"
+
+
+
 * Whenever a service is created an endpoint is automatically created by the same name.
 
       kubectl get endpoints
