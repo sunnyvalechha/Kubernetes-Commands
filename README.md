@@ -7,12 +7,13 @@ Topics:
 * Namespaces.
 * Deployments
 * Replicasets
+* Kubernetes Services
+* Cluster maintainence Drain, Cordon and Uncordon
 * Imparative and Declaritive commands.
 * Labels and Selectors
-* Cluster maintainence Drain, Cordon and Uncordon
+* 
 * Taints and Tolerations
 * Role Base Access Control (RBAC)
-* Kubernetes Services
 * Kubernetes Secrets
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
@@ -291,7 +292,17 @@ The Short name of service is "svc"
 
   2. NodePort:
 
-  3. Load Balancer: 
+  3. Load Balancer:
+ 
+  **Draining a Kubernetes node**
+
+  Draining: When performing maintenance, sometimes we may need to remove the node from the service. To do this we need to **drain** the node. Pods running on these node will gracefully terminated and reschedules on anohter node. 
+ 
+  During this activity all our services should be able to continue to run even if we remove a node from service.
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a1f26c2f-9c1c-4d12-aec9-78dff59e2aba)
+
+
 
   
 
