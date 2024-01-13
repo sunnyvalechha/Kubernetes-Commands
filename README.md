@@ -302,6 +302,86 @@ The Short name of service is "svc"
 
   ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a1f26c2f-9c1c-4d12-aec9-78dff59e2aba)
 
+      kubectl drain <node-name>
+
+      kubectl drain <node-name> --ignore-daemonsets
+
+  Note: In above command, "--ignore-daemonsets" when draining a node we need to ignore daemonsets because of pod are tied to each other also some of the system created pods that were created during installatoins and they can't just moved from one node to another.
+
+  Once the node is drained and we have finished our maintenence tasks, we want to run pods again on that node, we cannot specifically run the same pod again on the same node, this process done automatically.
+  
+      kubectl uncordon <node-name>
+
+  Note: In above command we are instructing kubernetes that node is ready now to run pods.
+
+  Practical:-
+
+  We have 2 nodes
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/6b3c9119-9e55-42ba-ac8c-68b812f7662b)
+
+      kubectl run nginx --image=nginx
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d74f96f4-c4f5-4503-9490-c36481adc3c5)
+
+vim deploy.yaml
+
+      apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 8
+
+    kubectl apply -f deploy.yml
+
+    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/b00f8df1-c09c-4ca8-b8fa-44704ae4b726)
+
+
+    ERROR:
+
+    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9de38d85-aa71-43e1-947e-3d09f5b05d32)
+
+    kubectl drain ip-192-168-21-155.ec2.internal --ignore-daemonsets --force
+
+    Note: --force will delete the pod without deployment because there is no deployment
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/ff777aa6-50b5-417c-acf6-7e0a74d2bacb)
+
+  Again if I check for pods, I can see the pods with deployment are running on only one node.
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5aa676d8-50d7-4991-b0ca-bbcae0c97be9)
+
+  * If we check for nodes, we can see that Scheduling is disabled on drained node.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f55a974e-3e90-464d-8a21-32a310a47a5a)
+
+  * After uncordon the node the staus is again ready
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/fa094469-ce7e-4a51-8f41-74db60dfc789)
+
+
+
+
+
+
+    
+
 
 
   
@@ -316,6 +396,38 @@ The Short name of service is "svc"
 
 1. Impative method: Configuration defines directly on Command line and run against Kubernetes cluster.
 2. Declarative method: Configuration defines through manfest files and then applies those definitions to the cluster.
+
+Commands:
+
+    kubectl run nginx --image=nginx 
+    
+    kubectl create deployment my-deployment --image=nginx 
+
+    kubectl create deployment my-deployment --image=nginx --dry-run -o yaml
+
+Note: Dry-run will not run command and -o will give a sample yaml, we can re-direct the yaml file to a text or yaml file. Here "=client" is used as new method.
+
+    kubectl create deployment my-deployment --image=nginx --dry-run=client -o yaml > newdep.yaml
+
+
+
+**Role Base Access Control (RBAC)**
+
+* Role-based access control allows to control what users are allowed to do and access within the cluster. Example we can allow developer to read metadata and logs from pods but do not make any chaanges to them.
+
+* Understand, Roles and ClusterRoles are Kubernetes objects that define a set of permissions. These permissions determine what users can do in the cluster.
+
+* A Role defines permissions within a particular namespace, and a ClusterRole defines cluster-wide permissions not specific to a single namespace.
+
+* Another two things we should aware of is, RoleBinding and ClusterRoleBinding are objects that connect Roles and ClusterRoles to users.
+
+* RoleBinding are object that link users to roles.
+
+* ClusterRoleBinding are link users to cluster roles.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/124ba973-c744-41a7-8b3a-48dc6bf822fb)
+
+
 
 
 
