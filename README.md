@@ -375,19 +375,6 @@ Note: --force will delete the pod without deployment because there is no deploym
 
 
 
-
-
-
-    
-
-
-
-  
-
-
-
-
-
 ====================================================================================
 
 **Kubernetes Declarative vs imperative Commands**
@@ -463,22 +450,28 @@ In the above snaps we can see the user jane is able to **get, watch or list** bu
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/3fc088ea-531a-43ea-af41-cc5f9853070e)
 
-# ClusterRole
+**ClusterRole**
 
 vim clusterrole.yaml
 
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: secret-reader
-rules:
-- apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get", "watch", "list"]
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/36897e6c-111a-4598-9cf0-d4e6975340c3)
 
-* We will create another file rolebinding.yaml in which we give the reference of above clusterrole
+    kubectl apply -f clusterrole.yaml
 
-  vim rolebinding.yaml
+ * We will create another file called rolebinding.yaml in which we give the reference of above clusterrole so we can bind the secret with namespace.
+
+vim cluster-rolebinding.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/176ebdb2-cb60-42eb-9e0b-c4d041736f96)
+
+    kubectl apply -f cluster-rolebinding.yaml
+
+* Verify
+
+    kubectl auth can-i get secret --as dev -n development
+
+
+  
 
   
 
