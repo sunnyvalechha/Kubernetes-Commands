@@ -477,8 +477,19 @@ vim cluster-rolebinding.yaml
 
 A service account is a type of non-human account . It is used authenticating to the API server or implementing identity-based security policies. Basically if pods need to communicate with kubernetes API, you can use Service Accounts to control their access.
 
+Everytime a pod is created, kubernetes will assign a default service account.
+
 To manage service accounts just like any other user, using RBAC. Bind service account with RoleBindings or ClusterRoleBindings to provide access to Kubernetes API functionality.
 
+    kubectl get sa -A
+
+If want to see where the token has mounted of service account. Check under Mounts by doing 
+
+kubectl describe sa <sa-name> 
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/faddf39d-af43-4f7e-a238-c4fa2134a87c)
+
+    
     vim my-serviceaccount.yaml
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/df158d40-049e-4735-851c-d6a124c65a5f)
