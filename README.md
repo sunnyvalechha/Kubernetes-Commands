@@ -11,7 +11,6 @@ Topics:
 * Cluster maintainence Drain, Cordon and Uncordon
 * Imparative and Declaritive commands.
 * Labels and Selectors
-* 
 * Taints and Tolerations
 * Role Base Access Control (RBAC)
 * Kubernetes Secrets
@@ -413,20 +412,29 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
 **Role Base Access Control (RBAC)**
 
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4d7ec469-de5c-4324-9689-70011be396e1)
+
 * Role-based access control allows to control what users are allowed to do and access within the cluster. Example we can allow developer to read metadata and logs from pods but do not make any chaanges to them.
 
 * Understand, Roles and ClusterRoles are Kubernetes objects that define a set of permissions. These permissions determine what users can do in the cluster.
 
-* A Role defines permissions within a particular namespace, and a ClusterRole defines cluster-wide permissions not specific to a single namespace.
+* A Role defines permissions within a particular namespace.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/b7484986-cce8-4577-b2da-59f37972801a)
+
+* ClusterRole defines cluster-wide permissions not specific to a single namespace.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9cee1520-0d1f-4514-9852-b7950aeacf65)
 
 * Another two things we should aware of is, RoleBinding and ClusterRoleBinding are objects that connect Roles and ClusterRoles to users.
 
 * RoleBinding are object that link users to roles.
 
-* ClusterRoleBinding are link users to cluster roles.
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/c5cd73ce-4019-4892-9d55-c1df3fb1cfc3)
+
+* ClusterRoleBinding link users to ClusterRoles.
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/124ba973-c744-41a7-8b3a-48dc6bf822fb)
-
 
 
 
