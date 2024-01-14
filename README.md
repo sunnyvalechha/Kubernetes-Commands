@@ -10,9 +10,10 @@ Topics:
 * Kubernetes Services
 * Cluster maintainence Drain, Cordon and Uncordon
 * Imparative and Declaritive commands.
+* Role Base Access Control (RBAC)
+* Service Accounts
 * Labels and Selectors
 * Taints and Tolerations
-* Role Base Access Control (RBAC)
 * Kubernetes Secrets
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
@@ -377,7 +378,7 @@ Note: --force will delete the pod without deployment because there is no deploym
 
 ====================================================================================
 
-**Kubernetes Declarative vs imperative Commands**
+# Kubernetes Declarative vs imperative Commands
 
 1. Impative method: Configuration defines directly on Command line and run against Kubernetes cluster.
 2. Declarative method: Configuration defines through manfest files and then applies those definitions to the cluster.
@@ -394,7 +395,7 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
     kubectl create deployment my-deployment --image=nginx --dry-run=client -o yaml > newdep.yaml
 
-
+====================================================================================
 
 **Role Base Access Control (RBAC)**
 
@@ -470,11 +471,33 @@ vim cluster-rolebinding.yaml
 
     kubectl auth can-i get secret --as dev -n development
 
+====================================================================================
 
-  
+# Service Accounts
 
-  
+A service account is a type of non-human account . It is used authenticating to the API server or implementing identity-based security policies. Basically if pods need to communicate with kubernetes API, you can use Service Accounts to control their access.
 
+To manage service accounts just like any other user, using RBAC. Bind service account with RoleBindings or ClusterRoleBindings to provide access to Kubernetes API functionality.
+
+    vim my-serviceaccount.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/df158d40-049e-4735-851c-d6a124c65a5f)
+
+    kubectl apply -f my-serviceaccount.yaml
+
+Create service account another way
+
+    kubectl create serviceaccount my-service-account -n kube-system
+
+    kubectl get sa
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/654435a9-aebe-419d-99a8-6a1f1b3536a6)
+
+* Create a RoleBinding to bind with Service Account
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/cbb5da89-14d3-4f1a-928e-e60064a268fc)
+
+====================================================================================
 
 
 
