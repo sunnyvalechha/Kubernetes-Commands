@@ -445,11 +445,11 @@ Practical:
 
     kubectl get role
 
-    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4138fdce-212c-4fb1-8cf8-4ee33b2b09a2)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4138fdce-212c-4fb1-8cf8-4ee33b2b09a2)
 
     vim rolebinding.yaml
 
-    apiVersion: rbac.authorization.k8s.io/v1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: read-pods
@@ -465,15 +465,15 @@ roleRef:
 
     kubectl apply -f rolebinding.yaml
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/8a4e1822-ac24-4334-9829-17fc85f93456)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/8a4e1822-ac24-4334-9829-17fc85f93456)
 
     kubectl auth can-i get pod --as jane
 
-    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f90e681f-07dd-4a60-83ac-abc59d767ab1)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f90e681f-07dd-4a60-83ac-abc59d767ab1)
 
 In the above snaps we can see the user jane is able to **get, watch or list** but unable to create or delete the pod in **default** namespace
 
-    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/3fc088ea-531a-43ea-af41-cc5f9853070e)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/3fc088ea-531a-43ea-af41-cc5f9853070e)
 
 # ClusterRole
 
