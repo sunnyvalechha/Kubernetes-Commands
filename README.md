@@ -412,11 +412,13 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
 **Role Base Access Control (RBAC)**
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4d7ec469-de5c-4324-9689-70011be396e1)
-
 * Role-based access control allows to control what users are allowed to do and access within the cluster. Example we can allow developer to read metadata and logs from pods but do not make any chaanges to them.
 
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/124ba973-c744-41a7-8b3a-48dc6bf822fb)
+
 * Understand, Roles and ClusterRoles are Kubernetes objects that define a set of permissions. These permissions determine what users can do in the cluster.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4d7ec469-de5c-4324-9689-70011be396e1)
 
 * A Role defines permissions within a particular namespace.
 
@@ -434,7 +436,76 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
 * ClusterRoleBinding link users to ClusterRoles.
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/124ba973-c744-41a7-8b3a-48dc6bf822fb)
+Practical:
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4db452d1-639c-4d39-b4d2-4ec30d4f4924)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/24b21df8-2bf8-4a70-82c9-637a18a9ed68)
+
+    kubectl apply -f role.yaml
+
+    kubectl get role
+
+    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4138fdce-212c-4fb1-8cf8-4ee33b2b09a2)
+
+    vim rolebinding.yaml
+
+    apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: jane # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+
+# This role binding allows "jane" to read pods in the "default" namespace.
+# You need to already have a Role named "pod-reader" in that namespace.
+
+    kubectl apply -f rolebinding.yaml
+
+  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/8a4e1822-ac24-4334-9829-17fc85f93456)
+
+    kubectl auth can-i get pod --as jane
+
+    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f90e681f-07dd-4a60-83ac-abc59d767ab1)
+
+In the above snaps we can see the user jane is able to **get, watch or list** but unable to create or delete the pod in **default** namespace
+
+    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/3fc088ea-531a-43ea-af41-cc5f9853070e)
+
+# ClusterRole
+
+vim clusterrole.yaml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: secret-reader
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Secret
+  # objects is "secrets"
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+
+* We will create another file rolebinding.yaml in which we give the reference of above clusterrole
+
+  vim rolebinding.yaml
+
+  
+
+
+
 
 
 
