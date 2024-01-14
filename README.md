@@ -299,7 +299,7 @@ The Short name of service is "svc"
  
   During this activity all our services should be able to continue to run even if we remove a node from service.
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a1f26c2f-9c1c-4d12-aec9-78dff59e2aba)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a1f26c2f-9c1c-4d12-aec9-78dff59e2aba)
 
       kubectl drain <node-name>
 
@@ -317,15 +317,15 @@ The Short name of service is "svc"
 
   We have 2 nodes
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/6b3c9119-9e55-42ba-ac8c-68b812f7662b)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/6b3c9119-9e55-42ba-ac8c-68b812f7662b)
 
       kubectl run nginx --image=nginx
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d74f96f4-c4f5-4503-9490-c36481adc3c5)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d74f96f4-c4f5-4503-9490-c36481adc3c5)
 
 vim deploy.yaml
 
-      apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
@@ -349,22 +349,21 @@ spec:
 
     kubectl apply -f deploy.yml
 
-    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/b00f8df1-c09c-4ca8-b8fa-44704ae4b726)
-
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/b00f8df1-c09c-4ca8-b8fa-44704ae4b726)
 
     ERROR:
 
-    ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9de38d85-aa71-43e1-947e-3d09f5b05d32)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9de38d85-aa71-43e1-947e-3d09f5b05d32)
 
     kubectl drain ip-192-168-21-155.ec2.internal --ignore-daemonsets --force
 
-    Note: --force will delete the pod without deployment because there is no deployment
+Note: --force will delete the pod without deployment because there is no deployment
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/ff777aa6-50b5-417c-acf6-7e0a74d2bacb)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/ff777aa6-50b5-417c-acf6-7e0a74d2bacb)
 
   Again if I check for pods, I can see the pods with deployment are running on only one node.
 
-  ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5aa676d8-50d7-4991-b0ca-bbcae0c97be9)
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5aa676d8-50d7-4991-b0ca-bbcae0c97be9)
 
   * If we check for nodes, we can see that Scheduling is disabled on drained node.
 
