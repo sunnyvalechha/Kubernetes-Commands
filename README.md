@@ -479,7 +479,11 @@ A service account is a type of non-human account . It is used authenticating to 
 
 Everytime a pod is created, kubernetes will assign a default service account.
 
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/1abc24c2-0bac-4ec2-b4f2-7bc80a93a831)
+
 To manage service accounts just like any other user, using RBAC. Bind service account with RoleBindings or ClusterRoleBindings to provide access to Kubernetes API functionality.
+
+    kubectl create sa new-sa-account
 
     kubectl get sa -A
 
