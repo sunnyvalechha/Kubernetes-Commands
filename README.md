@@ -514,6 +514,15 @@ Create service account another way
 
 ====================================================================================
 
+# Configmaps and Secrets
+
+A ConfigMap is a dictionary of configuration settings. This dictionary consists of key-value pairs of strings. Kubernetes provides these values to your containers. Use a ConfigMap to keep your application code separate from your configuration. A ConfigMap stores configuration settings for your code. Store connection strings, public credentials, hostnames, and URLs in your ConfigMap.
+
+An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
+
+With the secrets the data is first encrypted at REST than stored in etcd, but what is anyone can run "kubectl describe secrets" and get the information stored in Secrets.
+
+To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
 
 
 
@@ -523,6 +532,9 @@ Create service account another way
 
 
 
+* Whenver we login to cluster the information stored at kube config file.
+
+      cat ~/.kube/config
 
 **Introduction to ETCD**
 
