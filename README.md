@@ -52,7 +52,7 @@ Key Features:
 * **Etcd:** A key-value store that contains the state of the cluster
 
 **Worker Node**
-  
+
 * Runs the containers (inside the pods)
 
 Key Features:
