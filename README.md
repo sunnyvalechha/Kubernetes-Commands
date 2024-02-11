@@ -524,10 +524,62 @@ With the secrets the data is first encrypted at REST than stored in etcd, but wh
 
 To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
 
+=======================================================================================================
+# Volumes in Kubernetes, Persistent Volume / Persistent Volume Claim
 
+* EmptyDir: When 2 containers in a pod shares a same storage within a pod, this concept is called EmptyDir.
+* We will create a EBS volume within the AWS and share volume with multiple worker nodes and this concept called as as Persistent Volume. This acts like a NFS (a shared storage)
+* From the EBS volume we will create small parts of volume these small chunks called as PV or PV objects.
+* This PV is created through a manifest file where we will claim the volume which required as in 3rd point. In order to use PV we need to claim it first. 
+* So even if the pod is deleted, the storage will be persist same as disk in linux will persist even if we delete the folder.
 
+  Note: Create an EBS volume in same AZ where instance is created.
 
+vim pv.yaml
 
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/030c56d0-844a-46a9-b675-0bf5724e6542)
+
+kubectl apply -f pv.yaml
+
+kubectl get pv
+
+To claim that volume we need to create PVC
+
+vim pv-claim.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/eb56539e-ebee-46ef-a56f-71328088931c)
+
+kubectl apply -f pv-claim.yaml
+
+kubectl get pvc
+
+To use above pvc in a pod
+
+vim pod-pvc.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/8c2abf37-6fe8-4a7e-b13c-1a543aabd6eb)
+
+kubectl apply -f pvc.yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/b20d52d9-9283-4e3e-86eb-d2b0074edebf)
+
+Go inside the pod / container
+
+kubectl exec <pod-name> -it -- /bin/bash
+
+cd /tmp/persistent (directory created at this location)
+
+* Create file with random content
+
+To test the scenerio
+
+kubectl delete pod <pod-name>
+
+Note: New pod must created as part of our deployment
+
+Go inside the new pod, check if the "/tmp/persistent" path must be present in the new created pod also.
+
+=======================================================================================================================
 
 
 
