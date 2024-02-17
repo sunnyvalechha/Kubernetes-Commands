@@ -32,8 +32,7 @@ Kubernetes helps us to create mini/microservices applications while in docker we
 
 # Kubernetes Cluster / Architecture
 
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/334472c3-c162-4b25-a623-9b87d9617e5a)
-
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/91777215-f712-474f-9ff8-82b13fe2588f)
 
 Below are the major components of Kubernetes and what they do:
 
