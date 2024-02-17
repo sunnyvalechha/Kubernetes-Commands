@@ -263,6 +263,8 @@ Even before deleting the pod, the new pod will created
 
 # Service
 
+Document used by Densify: https://www.densify.com/kubernetes-autoscaling/kubernetes-service-load-balancer/
+
 * In the World of kubernetes the pods are created through replicaset via deployment and the pods can be easily dead and non operation that is fine, but the IP address of the pod will be changed every time when the pod is dead, that is the Issue kubernetes services are resolving.
 
 * On top of deployemnt Service will be created. So instead of accessing pod directly the request will re-direct to the Service and acts as a **Load Balancer** because it uses a component called as kube-proxy.
@@ -271,27 +273,19 @@ Even before deleting the pod, the new pod will created
 
 * Another thing that service offers is **Expose the pod to external world**.
 
-* 
-
-
-
 The Short name of service is "svc"
 
-
-
 * Whenever a service is created an endpoint is automatically created by the same name.
-
-      kubectl get endpoints
 
       kubectl describe service/<service-name>
 
 * Types of Services:-
   
-  1. ClusterIP: This is the default service, If we do not mention any type   in manifest file so ClusterIP automatically selected. We cannot use the IP outside the cluster when used as ClusterIP.
+  1. ClusterIP: This is the default service, If we do not mention any type in manifest file so ClusterIP automatically selected. We cannot use the IP outside the cluster when used as ClusterIP basically it is accessible within the cluster. Dependent applications can interact with other applications internally using the ClusterIP service.
 
-  2. NodePort:
+  2. NodePort: NodePort services are accessible outside the cluster. It creates a mapping of pods to its hosting node/machine on a static port. For example, you have a node with IP address 10.0.0.20 and a Redis pod running under it. NodePort will expose 10.0.0.20:30038, assuming the port exposed is 30038, which you can then access outside the Kubernetes cluster.
 
-  3. Load Balancer:
+  3. Load Balancer: This service type creates load balancers in various Cloud providers like AWS, GCP, Azure, etc., to expose our application to the Internet. The Cloud provider will provide a mechanism for routing the traffic to the services. The most common example usage of this type is for a website or a web app.
  
   **Draining a Kubernetes node**
 
