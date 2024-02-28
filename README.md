@@ -174,6 +174,12 @@ Two operations of kube-scheduler:
 
   systemctl status kubelet
 
+# Kube-proxy
+
+Kube proxy is a process that runs on each node in the Kubernetes cluster, it's job is to look for new services and every time a new service is created it creates the appropriate rules on each node to forward traffic to those services to the backend pods.
+
+One way to doing this through IP tables rules. In this case it creates iptables rule to each node in the cluster to forward traffic heading to the IP of the service.
+
 # Difference between monolithic and microservice architecture.
 
   **Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container. It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
@@ -500,6 +506,7 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
     kubectl create deployment my-deployment --image=nginx --dry-run=client -o yaml > newdep.yaml
 
+    
 ====================================================================================
 
 **Role Base Access Control (RBAC)**
