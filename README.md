@@ -612,7 +612,16 @@ ETCD is distributed key-value store that is Simple, Secure and Fast and used to 
 
     ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp --write-out=table
 
-    
+Set version 3 Permanent
+
+    export ETCDCTL_API=3 ./etcdctl 
+
+To put and get value into ETCD
+
+    ./etcdctl put key1 value1 
+
+    ./etcdctl get key1
+
 **Characters of ETCD**
 
 1. ETCD written in GO programming language.
