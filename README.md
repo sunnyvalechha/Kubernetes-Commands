@@ -129,9 +129,16 @@ kubeadm init
 
 # Kube-api server
 
-Primary management component in Kubernetes  
+Primary management component in Kubernetes. When we run "kubectl" command it's first reach to Kube-APIserver. Kube-APIserver first authenticate the request and validates it, then it retreives the data from ETCD cluster and respond back. The Scheduler continuesly monitor the API server and realize that there is new pod with no node assigned. The Scheduler identifies the right node to place the new pod and communicates back to the Kube-API server. The API server then updates the information in ETCD cluster. API server passes the information to kubelet on worker node, the kubelet then creates the pod on worker node and instruct the Container Runtime Engine to deploy the application image. Once done, the kubelet updates the status back to the API server, API server updates the data back to the ETCD cluster.
 
-# Controller Manager
+Tasks API server do
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4e17c7c8-9c3a-4c0c-9749-d14952ee9cdf)
+
+
+# Kube Controller Manager
+
+Controller manager managed different controller in Kubernetes. 
 
 Controller manager have two types:
 
