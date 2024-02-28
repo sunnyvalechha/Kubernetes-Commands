@@ -77,6 +77,96 @@ Key Features:
     
  * Communicates to the Master via API server
 
+
+# ETCD
+
+ETCD is distributed key-value store that is Simple, Secure and Fast and used to store the state of the cluster also used to restore the exact state of cluster in case of disater recovery.
+
+    etcdctl --version
+
+    ETCDCTL_API=3 etcdctl snapshot save --help
+
+    ps -aux | grep etcd   >> To get the certificate path
+
+    ETCDCTL_API=3 etcdctl snapshot save my-backup.bkp --cert= --key= --cacert --endpoints=127.0.0.1:2379
+
+--cacert /etc/kubernetes/pki/etcd/ca.crt     
+--cert /etc/kubernetes/pki/etcd/server.crt     
+--key /etc/kubernetes/pki/etcd/server.key
+
+    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp
+
+    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp --write-out=table
+
+Set version 3 Permanent
+
+    export ETCDCTL_API=3 ./etcdctl 
+
+To put and get value into ETCD
+
+    ./etcdctl put key1 value1 
+
+    ./etcdctl get key1
+
+**Characters of ETCD**
+
+1. ETCD written in GO programming language.
+2. ETCD can also be configured externally.
+3. ETCD used to store configuration details.
+
+**System requirements to install ETCD**
+
+* High CPU Capacity
+* 8gb memory for small deployments
+* 16gb - 64gb for heavy deployments
+* Fast disk of about 7200 RPM (Hard disk)
+* 1Gbe network LAN Card for common ETCD deployments
+* 10Gbe network Lan Card for large ETCD deployments
+
+**How do I install ETCD?**
+
+kubeadm init
+
+# Kube-api server
+
+Primary management component in Kubernetes  
+
+# Controller Manager
+
+Controller manager have two types:
+
+1. Kube-controller manager
+
+2. Cloud-controller manager
+
+- Controller managers are responsible for defining and maintaining the desired state of a cluster.
+- Controller managers ensures that the system remains in the desired state.
+- Controller managers monitor and respond to the state and health of the Pods, ensuring that the desired number of pod are up, running and healthy.
+- If the state of health changes, the controller will respond accordingly.
+
+
+# Kubernetes Scheduler
+
+- It is a component of master node which is responsible for scheduling tasks for the worker nodes and storing resources information of each node.
+- When pod is created, the scheduler finds the best node to run the pod.
+
+Two operations of kube-scheduler:
+
+1. Filtering
+2. Scoring
+
+* Filtering based upon available CPU and RAM.
+* When two nodes having same resources then scoring comes into the picture.
+
+# Kubelet
+- Every kubelet is talking to kube-api server.
+- Kubelet is an agent which runs on each node ensures that all containers are running.
+- Kubelet uses API server to get the configurations of the pod and ensures the containers described are up and running.
+
+  To check if the kubelet is running:-
+
+  systemctl status kubelet
+
 # Difference between monolithic and microservice architecture.
 
   **Monolithic:** It means very large, united, and difficult to change. All the functionalities of a project exist in a single container. It is not very reliable, as a single bug in any module can bring down the entire monolithic application.
@@ -596,89 +686,11 @@ Go inside the new pod, check if the "/tmp/persistent" path must be present in th
 
       cat ~/.kube/config
 
-# ETCD
 
-ETCD is distributed key-value store that is Simple, Secure and Fast and used to store the state of the cluster also used to restore the exact state of cluster in case of disater recovery.
 
-    etcdctl --version
 
-    ETCDCTL_API=3 etcdctl snapshot save --help
 
-    ps -aux | grep etcd   >> To get the certificate path
 
-    ETCDCTL_API=3 etcdctl snapshot save my-backup.bkp --cert= --key= --cacert --endpoints=127.0.0.1:2379
-
-    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp
-
-    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp --write-out=table
-
-Set version 3 Permanent
-
-    export ETCDCTL_API=3 ./etcdctl 
-
-To put and get value into ETCD
-
-    ./etcdctl put key1 value1 
-
-    ./etcdctl get key1
-
-**Characters of ETCD**
-
-1. ETCD written in GO programming language.
-2. ETCD can also be configured externally.
-3. ETCD used to store configuration details.
-
-**System requirements to install ETCD**
-
-* High CPU Capacity
-* 8gb memory for small deployments
-* 16gb - 64gb for heavy deployments
-* Fast disk of about 7200 RPM (Hard disk)
-* 1Gbe network LAN Card for common ETCD deployments
-* 10Gbe network Lan Card for large ETCD deployments
-
-**How do I install ETCD?**
-
-kubeadm init
-
-**Introduction to Kubeapi server**
-
-The Kubernetes API server validates and configures data for the api objects like pods, services, replicationcontrollers, and others. 
-
-**Controller Manager**
-
-Controller manager have two types:
-
-1. Kube-controller manager
-
-2. Cloud-controller manager
-
-- Controller managers are responsible for defining and maintaining the desired state of a cluster.
-- Controller managers ensures that the system remains in the desired state.
-- Controller managers monitor and respond to the state and health of the Pods, ensuring that the desired number of pod are up, running and healthy.
-- If the state of health changes, the controller will respond accordingly.
-
-**Kubernetes Scheduler**
-
-- It is a component of master node which is responsible for scheduling tasks for the worker nodes and storing resources information of each node.
-- When pod is created, the scheduler finds the best node to run the pod.
-
-Two operations of kube-scheduler:
-
-1. Filtering
-2. Scoring
-
-* Filtering based upon available CPU and RAM.
-* When two nodes having same resources then scoring comes into the picture.
-
-**Kubelet**
-- Every kubelet is talking to kube-api server.
-- Kubelet is an agent which runs on each node ensures that all containers are running.
-- Kubelet uses API server to get the configurations of the pod and ensures the containers described are up and running.
-
-  To check if the kubelet is running:-
-
-  systemctl status kubelet
 
   
 
