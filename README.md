@@ -29,6 +29,21 @@ Kubernetes was designed by Google and managed by the Cloud Native Computing Foun
 
 Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
 
+# Docker vs Container D
+
+* At the begining of container Era, there were only tool to run container is Docker. Rkt is there but docker's user experience is much better than rkt. Then kubernetes came to orchestrate Docker and did'nt support any other container solutions. 
+* Kubernetes grew in popularity and other container runtime wanted to work with kubernetes.
+* So Kubernetes introduce and Interface called **Container Runtime Interface** (CRI).
+* CRI allows any vendor to work as a container runtime for Kubernetes.
+* Only thing they have to maintain the OCI standards
+* OCI stands for **Open container Initiative** and consist of ImageSpec and RuntimeSpec.
+* Imagespec means specifications how and image should be built.
+* Runtimespec is define the standards how any container runtime should be developed.
+* So keeping these standards in mind that can be used by anyone to work with Kubernetes, however Docker was'nt built to support the CRI standards because it was present way before than CRI introduced.
+* So Kubernetes introduced Dockershim for temporary basis.
+* Other container runtimes worked through the CRI but Docker continue to work without it as Docker consist multiple tools put together called Docker CLI, volumes, auths, security also the container runtime called runC and the daemon managed runC called ContainerD.
+* So the ContainerD is CRI compatible and can work directly with Kuberntes as other runtimes do.
+
 
 # Kubernetes Cluster / Architecture
 
@@ -581,10 +596,23 @@ Go inside the new pod, check if the "/tmp/persistent" path must be present in th
 
       cat ~/.kube/config
 
-**Introduction to ETCD**
+# ETCD
 
-ETCD is a consistent and distributed key-value store used for discovering services.
+ETCD is distributed key-value store that is Simple, Secure and Fast and used to store the state of the cluster also used to restore the exact state of cluster in case of disater recovery.
 
+    etcdctl --version
+
+    ETCDCTL_API=3 etcdctl snapshot save --help
+
+    ps -aux | grep etcd   >> To get the certificate path
+
+    ETCDCTL_API=3 etcdctl snapshot save my-backup.bkp --cert= --key= --cacert --endpoints=127.0.0.1:2379
+
+    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp
+
+    ETCDCTL_API=3 etcdctl snapshot status my-backup.bkp --write-out=table
+
+    
 **Characters of ETCD**
 
 1. ETCD written in GO programming language.
