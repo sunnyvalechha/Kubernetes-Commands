@@ -405,6 +405,48 @@ The Short name of service is "svc"
 
   3. Load Balancer: This service type creates load balancers in various Cloud providers like AWS, GCP, Azure, etc., to expose our application to the Internet. The Cloud provider will provide a mechanism for routing the traffic to the services. The most common example usage of this type is for a website or a web app.
  
+**Labels and Selectors**
+
+* Labels are key and value pair
+* Labels are used to define the object, the object can be pod or nodes.
+* Selectors are used to identify the labels.
+* Labels must be placed under metadata
+
+    kubectl get pods --show-labels
+
+Imparitive way
+
+    kubectl label pod test-abels level=mid
+
+List pod which match label
+
+    kubectl get pods -l Company=amdocs
+
+    kubectl get pods -l Company!=amdocs   >> Not Found
+
+    kubectl delete pods -l Company!=amdocs  >> delete pod which does not match label
+    
+To check the Selectors run below command
+
+    kubectl get pods --selectors app=App1
+
+Note: In Replicaset or Deployments labels are defined at 2 places under metadata, one at top and one at bottom under template section 
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/303c4c00-0f37-417e-abea-f46ee1f0c01f)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d4786122-23a9-440e-8f9b-7801febc7ed3)
+
+Currently 2 type of selectors are present.
+* Equlity based - which shows labels equal to or not equal to 
+* Set based  - where have to select between multiple labels, example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+
+**Node-Selector**
+
+* nodeSelector is the simplest recommended form of node selection constraint. You can add the nodeSelector field to your Pod specification and specify the node labels you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/260ace6d-ac36-4aa1-bd98-3f109c2e496b)
+
+ 
   **Draining a Kubernetes node**
 
   Draining: When performing maintenance, sometimes we may need to remove the node from the service. To do this we need to **drain** the node. Pods running on these node will gracefully terminated and reschedules on anohter node. 
@@ -496,15 +538,27 @@ Note: --force will delete the pod without deployment because there is no deploym
 
 Commands:
 
-    kubectl run nginx --image=nginx 
-    
-    kubectl create deployment my-deployment --image=nginx 
+    kubectl run nginx --image=nginx
 
-    kubectl create deployment my-deployment --image=nginx --dry-run -o yaml
+    kubectl run custom-nginx --image=nginx --port=8080
+    
+    kubectl create deployment my-deployment --image=nginx --replicas=4 -n new-namespace
+
+See live configuration of pod, which k8s automatically creates
+
+    kubectl create deployment my-deployment --image=nginx --dry-run=client -o yaml
 
 Note: Dry-run will not run command and -o will give a sample yaml, we can re-direct the yaml file to a text or yaml file. Here "=client" is used as new method.
 
     kubectl create deployment my-deployment --image=nginx --dry-run=client -o yaml > newdep.yaml
+
+    kubectl create deploy webapp image=nginx:latest --replicas=3
+
+    kubectl run redis --image=redis:alpine --labels="tier=db"
+
+    kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
+
+    
 
     
 ====================================================================================
