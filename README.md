@@ -422,6 +422,8 @@ List pod which match label
 
     kubectl get pods -l Company=amdocs
 
+    kubectl get pods -l Company=IBM --overwrite
+
     kubectl get pods -l Company!=amdocs   >> Not Found
 
     kubectl delete pods -l Company!=amdocs  >> delete pod which does not match label
@@ -438,14 +440,29 @@ Note: In Replicaset or Deployments labels are defined at 2 places under metadata
 
 Currently 2 type of selectors are present.
 * Equlity based - which shows labels equal to or not equal to 
-* Set based  - where have to select between multiple labels, example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+* Set based  - where have to select between multiple labels
+
+  in, notin, exist
+  
+  example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+
+**Annotations**
+
+Annotations are used to provide contextual information. Labels are for kubernetes while Annotations are for Humans.
+Annotations are used for non-identifying information.
+
+    kubectl annotate pod nginx "app=nginx-web-server"
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/dadd320b-9b82-4a46-b3b4-f54872d0e5a0)
+
+
+
 
 **Node-Selector**
 
 * nodeSelector is the simplest recommended form of node selection constraint. You can add the nodeSelector field to your Pod specification and specify the node labels you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify.
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/260ace6d-ac36-4aa1-bd98-3f109c2e496b)
-
  
   **Draining a Kubernetes node**
 
