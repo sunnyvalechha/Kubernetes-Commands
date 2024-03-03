@@ -634,6 +634,10 @@ In the above snaps we can see the user jane is able to **get, watch or list** bu
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/3fc088ea-531a-43ea-af41-cc5f9853070e)
 
+**PRACTICAL**
+
+
+
 **ClusterRole**
 
 vim clusterrole.yaml
