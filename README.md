@@ -636,6 +636,22 @@ In the above snaps we can see the user jane is able to **get, watch or list** bu
 
 **PRACTICAL**
 
+Create 2 instances, 1st for k8 cluster (minikube installed), 2nd for jump server
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a049ee79-0ea7-4314-8cae-31ed8b871a45)
+
+
+Install kubectl on jump server
+
+      snap install kubectl --classic
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/5227d9eb-3a82-415d-8484-c0ea1585ba6f)
+
+      root@jump-workstation:~# mkdir .kube
+
+From master, copy content from /root/.kube and paste on jump server same location config file
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/38e82cb6-a88c-417d-abe0-35ba5b9b7d16)
 
 
 **ClusterRole**
