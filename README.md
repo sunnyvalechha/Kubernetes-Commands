@@ -404,7 +404,49 @@ The Short name of service is "svc"
   2. NodePort: NodePort services are accessible outside the cluster. It creates a mapping of pods to its hosting node/machine on a static port. For example, you have a node with IP address 10.0.0.20 and a Redis pod running under it. NodePort will expose 10.0.0.20:30038, assuming the port exposed is 30038, which you can then access outside the Kubernetes cluster.
 
   3. Load Balancer: This service type creates load balancers in various Cloud providers like AWS, GCP, Azure, etc., to expose our application to the Internet. The Cloud provider will provide a mechanism for routing the traffic to the services. The most common example usage of this type is for a website or a web app.
- 
+
+# How kube-proxy and services work together | Kube-proxy working in kubernetes
+
+* Ever tried to ping cluster-IP service. It will never work as it is exist in ETCD only.
+* There is no "process" running on service IP, no compute used by this name. So how pods are connected to outer world?
+
+Check how many rules present now
+
+      iptables -t nat --list | wc -l
+
+Create 1 deployment (3 replicas)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/ce41e0cd-e6aa-44a4-ad54-ff5bdf4315ca)
+
+      kubectl expose deployment nginx-deployment --name nginx-svc
+
+      kubectl get svc
+
+      kubectl describe svc nginx-svc
+
+Note: This service has 3 endpoints as we have mention 3 replicas of deployment it works as a round robin load-balancer, we hit the IP 10.109.78.189 it send traffic to Endpoint.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/f0711d94-6298-4685-ba71-46d2975ee18d)
+
+Now, if we check the count of IP tables, it will increase from 139 to 159
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/2e53fe9c-845e-4112-bfb5-32ccbd0eca7e)
+
+If we check the IP in netstat, there is no IP present
+
+      netstat -tulpn | grep 10.109.78.189
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/db337728-f78f-4f8c-803c-907dfa5659c0)
+
+above snap scenerio shows like this 
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/4734ffd7-6f21-43bb-89b3-0aa70e886ce6)
+
+Note: Kube-Proxy continuesly monitors if there is any changes in control plane data, also kube-proxy runs as a daemon-set (working on all nodes) that is why as soon as we expose our pod kube-proxy makes an entry on IP-tables and the count increases to 159. 
+
+
+
+
 **Labels and Selectors**
 
 * Labels are key and value pair
