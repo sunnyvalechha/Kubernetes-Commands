@@ -444,6 +444,18 @@ above snap scenerio shows like this
 
 Note: Kube-Proxy continuesly monitors if there is any changes in control plane data, also kube-proxy runs as a daemon-set (working on all nodes) that is why as soon as we expose our pod kube-proxy makes an entry on IP-tables and the count increases to 159. 
 
+Here we are focusing on service chain >> Chain KUBE-SVC-*
+      
+      iptables -t nat --list
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/9e522b42-f071-423e-8ba1-ef0521ffc98e)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/fa42ec5b-5970-4986-b117-f1dae11e7c77)
+
+      iptables -t nat -L KUBE-SERVICES -n | column -t
+
+So basically, if anybody hits the service IP iptable remove the service Ip and send traffic to the POD IP (Cluster IP) as endpoints and these entries are done on all node even on controller due to daemon set.
+
 
 
 
