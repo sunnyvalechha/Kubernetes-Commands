@@ -850,13 +850,22 @@ Go inside the new pod, check if the "/tmp/persistent" path must be present in th
 
 # Daemonsets and Stateful sets
 
-A DaemonSet ensures that on all nodes run a copy of a Pod. As nodes are added to the cluster, copy of Pod are added to them. As nodes are removed from the cluster, that copy should be deleted. Deleting a DaemonSet will clean up the Pods it created.
+A DaemonSet ensures that on all nodes run a copy of a Pod. As nodes are added to the cluster, copy of Pod are added to them. As nodes are removed from the cluster, that copy should be deleted. Deleting a DaemonSet will clean up the Pods it created. 
+
+We can only create daemonset through yaml file, there is no seprate command of Imparitive approach to create DS.
+
+We do not need to mention Replicas count here as daemonset automatically create a copy of pod on every node automatically and delete once the node is remove from cluster.
 
 Some typical uses of a DaemonSet are:
 
 * running a cluster storage daemon on every node
 * running a logs collection daemon on every node
 * running a node monitoring daemon on every node
+
+Run a daemonset: Take DS example from K8 document, create a daemonset yaml file and run a pod
+
+* kubectl get daemonset
+* kubectl describe daemonset
 
 
 StatefulSet is the controller that manages the deployment and scaling of a set of Stateful pods. A stateful pod in Kubernetes is a pod that requires persistent storage and a stable network identity to maintain its state all the time, even during pod restarts or rescheduling. These pods are commonly used for stateful applications such as databases or distributed file systems as these require a stable identity and persistent storage to maintain data consistency.
@@ -869,7 +878,7 @@ StatefulSet is the controller that manages the deployment and scaling of a set o
 
 The “pause container” is a special, internal container created and managed by Kubernetes within each pod. Its primary purpose is to network namespace and IPC (Inter-Process Communication) namespace for all other containers within the same pod.
 
-Practical:-
+**Practical:-**
 
 * Run the test pod (nginx)
 * Check the Ip of pod by running "-o wide" command
@@ -879,7 +888,6 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 
 * Manually stop the pause container on worker node then check on master the restart must be 1 and IP will be changed. So we can observe that new container and pause container also created.
   
-
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a6a28c32-efdd-46da-a902-d709faea007c)
 
 
