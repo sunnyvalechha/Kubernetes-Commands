@@ -21,6 +21,7 @@
 * Config maps
 * Enviroment Variable in Kubernetes
 * Security and Certificate details
+* Pause Containers
 
 
 # Introduction and Architecture of Kubernetes
@@ -858,6 +859,27 @@ Some typical uses of a DaemonSet are:
 * running a node monitoring daemon on every node
 
   
+
+
+
+# Pause Containers
+
+The “pause container” is a special, internal container created and managed by Kubernetes within each pod. Its primary purpose is to network namespace and IPC (Inter-Process Communication) namespace for all other containers within the same pod.
+
+Practical:-
+
+* Run the test pod (nginx)
+* Check the Ip of pod by running "-o wide" command
+* Get the Ip, ssh to the node and run "docker ps -a | grep -i boxtest" you will see there is pause container created just before the the main container.
+
+Kubernetes continuesly monitors this container and if K8 does not find the pause container then k8 will assign new Ip to the Pod. Kubernetes monitors the Pod with the help of Pause containers.
+
+* Manually stop the pause container on worker node then check on master the restart must be 1 and IP will be changed. So we can observe that new container and pause container also created.
+  
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a6a28c32-efdd-46da-a902-d709faea007c)
+
+
 
 
 
