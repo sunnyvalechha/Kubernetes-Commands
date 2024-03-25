@@ -854,7 +854,7 @@ A DaemonSet ensures that on all nodes run a copy of a Pod. As nodes are added to
 
 We can only create daemonset through yaml file, there is no seprate command of Imparitive approach to create DS.
 
-We do not need to mention Replicas count here as daemonset automatically create a copy of pod on every node automatically and delete once the node is remove from cluster.
+We do not need to mention Replicas count here as daemonset automatically create a copy of pod on every node automatically and delete once the node is removed from the cluster.
 
 Some typical uses of a DaemonSet are:
 
@@ -876,7 +876,7 @@ StatefulSet is the controller that manages the deployment and scaling of a set o
 
 # Pause Containers
 
-The “pause container” is a special, internal container created and managed by Kubernetes within each pod. Its primary purpose is to network namespace and IPC (Inter-Process Communication) namespace for all other containers within the same pod.
+The “pause container” is a special, internal container created and managed by Kubernetes within each pod. Its primary purpose is to provide network namespace and IPC (Inter-Process Communication) namespace for all other containers within the same pod.
 
 **Practical:-**
 
