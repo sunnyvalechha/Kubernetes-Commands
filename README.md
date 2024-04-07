@@ -897,6 +897,18 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 # Fluentd / fluent-bit / logstash (Cluster log collection)
 
 
+# Manually schedule a Pod on a node
+
+* Usually when we run a pod definition file a scheduler automatically find a suitable node and and run a pod onto that node.
+* What happens if there is no Scheduler available?
+* So if we run a pod it will go into Pending state.
+* Every pod has a feild called "Node Name" that by default is not set, usually we don't specify this feild when we create a yaml file.
+* We can specify the node in the yaml file at the time of creating a pod file but what if the pod is already created.
+* One way to assign a node to an existing pod is to create a binding object and send a POST request to the Pod's binding API
+
+
+
+
 
 
 
