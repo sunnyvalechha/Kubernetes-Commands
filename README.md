@@ -8,6 +8,7 @@
 * Deployments
 * Replicasets
 * Kubernetes Services
+* Ingress
 * Cluster maintainence Drain, Cordon and Uncordon
 * Imparative and Declaritive commands.
 * Role Base Access Control (RBAC)
@@ -456,6 +457,26 @@ Here we are focusing on service chain >> Chain KUBE-SVC-*
       iptables -t nat -L KUBE-SERVICES -n | column -t
 
 So basically, if anybody hits the service IP iptable remove the service Ip and send traffic to the POD IP (Cluster IP) as endpoints and these entries are done on all node even on controller due to daemon set.
+
+
+# Ingress
+
+https://www.geeksforgeeks.org/what-is-kubernetes-ingress/
+
+ “Ingress is an API object that manages external access to the services in a Cluster“. The role of Ingress is instead of Service, the request goes first to Ingress and it does the forwarding then to the Service.
+
+ Why Ingress? - Kubernetes services does not have Load balancing capabilities so Kubernetes introduced Ingress and all the load balancing companies write their own Ingress controller. 
+
+ If we create a Service of Load balancer mode the Cloud Provider will charge for each IP address.
+
+ Note: If we create a Ingress yaml file called as Ingress resource it will not work without Ingress Controllers.
+
+ Ingress controller is a Load balancer that we can choose as per our requirements. Suppose we want Nginx LB we have to create Nginx ingress controller and so on with F5, Ambasador, HA Proxy. 
+
+ KeyPoints of Ingress:-
+ 1. Path based routing
+ 2. Host based routing
+ 3. SSL termination
 
 
 
