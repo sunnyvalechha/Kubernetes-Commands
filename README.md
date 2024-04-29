@@ -795,7 +795,18 @@ Create service account another way
 
 # Configmaps and Secrets
 
-A ConfigMap is a dictionary of configuration settings. This dictionary consists of key-value pairs of strings. Kubernetes provides these values to your containers. Use a ConfigMap to keep your application code separate from your configuration. A ConfigMap stores configuration settings for your code. Store connection strings, public credentials, hostnames, and URLs in your ConfigMap.
+**Configmap** is an API object that is mainly used to store non-confidential data. The data that is stored in ConfigMap is stored as key-value pairs. ConfigMaps are configuration files that may be used by pods as command-line arguments, environment variables, or even as configuration files on a disc.
+
+**Secrets** 
+A secret in Kubernetes can be defined as an object that contains a small quantity of sensitive data like a password, a token, or a key. It contains information that is otherwise stored in a container image or pod specification. The main advantage of a secret is that we will not have to include sensitive or confidential data in the application code. There is less risk of losing or exposing secrete during the workflow of creating viewing, and editing Pods because they can be and are created independently of the pods in which they are being used. Secretes can be considered similar to ConfigMaps but the main difference between them is that they are specially designed to store and hold confidential data.
+
+Uses of Secretes:
+1. Secrets can be used as a container environment variable.
+2. As a file in a volume mounted on at least one of its containers.
+3. It can be used by Kubelet when pulling images from the pod.
+4. Secretes are also used by the Kubernetes control plane.
+
+
 
 An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
 
