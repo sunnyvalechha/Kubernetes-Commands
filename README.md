@@ -15,12 +15,10 @@
 * Service Accounts
 * Labels and Selectors
 * Taints and Tolerations
-* Kubernetes Secrets
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
 * Daemonsets
-* Config maps
-* Enviroment Variable in Kubernetes
+* Enviroment Variable in Kubernetes with Config maps and Secrets
 * Security and Certificate details
 * Pause Containers
 
