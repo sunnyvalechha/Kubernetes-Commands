@@ -379,6 +379,11 @@ Even before deleting the pod, the new pod will created
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/42794592-adde-4a96-a922-8cc0ed107636)
 
+Command:
+
+*  k scale replicaset new-replica-set --replicas=5
+*  
+
 # Service
 
 Document used by Densify: https://www.densify.com/kubernetes-autoscaling/kubernetes-service-load-balancer/
