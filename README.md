@@ -654,6 +654,16 @@ Note: Dry-run will not run command and -o will give a sample yaml, we can re-dir
 
     kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
 
+    k run custom-nginx --image=nginx --port=8080
+
+    k create deployment webapp --image=kodekloud/webapp-color --replicas=3
+
+    k create deployment redis-deploy -n dev-ns --image=redis --replicas=2
+
+* create a service of type ClusterIP by the same name (httpd)
+
+    k run httpd --image=httpd:alpine --port=80 --expose
+
     
 
     
