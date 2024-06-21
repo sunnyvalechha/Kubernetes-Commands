@@ -915,9 +915,6 @@ Run a daemonset: Take DS example from K8 document, create a daemonset yaml file 
 
 StatefulSet is the controller that manages the deployment and scaling of a set of Stateful pods. A stateful pod in Kubernetes is a pod that requires persistent storage and a stable network identity to maintain its state all the time, even during pod restarts or rescheduling. These pods are commonly used for stateful applications such as databases or distributed file systems as these require a stable identity and persistent storage to maintain data consistency.
 
-  
-
-
 
 # Pause Containers
 
@@ -934,6 +931,9 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 * Manually stop the pause container on worker node then check on master the restart must be 1 and IP will be changed. So we can observe that new container and pause container also created.
   
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a6a28c32-efdd-46da-a902-d709faea007c)
+
+# Taints and Tolerations
+
 
 
 # Kube-bench (Security and compliance)
