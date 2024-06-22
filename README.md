@@ -806,11 +806,14 @@ Create service account another way
 
 ====================================================================================
 
-# Configmaps and Secrets
+# Configmaps
 
-**Configmap** is an API object that is mainly used to store non-confidential data. The data that is stored in ConfigMap is stored as key-value pairs. ConfigMaps are configuration files that may be used by pods as command-line arguments, environment variables, or even as configuration files on a disc.
+IT is an API object that is mainly used to store non-confidential data. The data that is stored in ConfigMap is stored as key-value pairs. ConfigMaps are configuration files that may be used by pods as command-line arguments, environment variables, or even as configuration files on a disc.
 
-**Secrets** 
+# Secrets
+
+Doc: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
+
 A secret in Kubernetes can be defined as an object that contains a small quantity of sensitive data like a password, a token, or a key. It contains information that is otherwise stored in a container image or pod specification. The main advantage of a secret is that we will not have to include sensitive or confidential data in the application code. There is less risk of losing or exposing secrete during the workflow of creating viewing, and editing Pods because they can be and are created independently of the pods in which they are being used. Secretes can be considered similar to ConfigMaps but the main difference between them is that they are specially designed to store and hold confidential data.
 
 Uses of Secretes:
@@ -819,13 +822,36 @@ Uses of Secretes:
 3. It can be used by Kubelet when pulling images from the pod.
 4. Secretes are also used by the Kubernetes control plane.
 
-
+Things to remember:
+* Secrets are not encrypted, they are encoded.
+* Secrets are not encrypted in ETCD, enables encryption at rest.
+* Do not check-in Secret object to source code manager (GitHub) along with code.
+* Anyone have access to create a pods in a namespace can access the secrets in the same namespace. To prevent this configure least-privilege access to Secrets (RBAC).
+* Consider third party secrets store providers like AWS, Azure, GCP, Terraform vault.
 
 An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
 
 With the secrets the data is first encrypted at REST than stored in etcd, but what is anyone can run "kubectl describe secrets" and get the information stored in Secrets.
 
 To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
+
+**Practical**
+
+Imparative: 
+
+    kubectl create secret generic <secret-name> --from-literal=<key>=<value>
+
+    kubectl create secret generic app-secret --from-literal=DB_Host=mysql
+
+    kubectl get secret
+
+    kubectl describe secret
+
+Create multiple secrets by mentione --from-literal command multiple times
+
+    kubectl create secret generic app-secret1 --from-literal=DB_Host=mysql --from-literal=DB2=Postgresql --from-literal=DB3=MariaDB
+
+
 
 =======================================================================================================
 # Volumes in Kubernetes, Persistent Volume / Persistent Volume Claim
