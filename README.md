@@ -814,25 +814,19 @@ IT is an API object that is mainly used to store non-confidential data. The data
 
 Doc: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
 
-A secret in Kubernetes can be defined as an object that contains a small quantity of sensitive data like a password, a token, or a key. It contains information that is otherwise stored in a container image or pod specification. The main advantage of a secret is that we will not have to include sensitive or confidential data in the application code. There is less risk of losing or exposing secrete during the workflow of creating viewing, and editing Pods because they can be and are created independently of the pods in which they are being used. Secretes can be considered similar to ConfigMaps but the main difference between them is that they are specially designed to store and hold confidential data.
-
-Uses of Secretes:
-1. Secrets can be used as a container environment variable.
-2. As a file in a volume mounted on at least one of its containers.
-3. It can be used by Kubelet when pulling images from the pod.
-4. Secretes are also used by the Kubernetes control plane.
+A secret in Kubernetes can be defined as an object that contains a small quantity of sensitive data like a password, a token, or a key. It contains information that is otherwise stored in a container image or pod specification. The main advantage of a secret is that, we do not have to include sensitive or confidential data in the application code. There is less risk of losing or exposing confidential data during the workflow of creating viewing, and editing Pods because they can be created independently in the pods in which they are being used. Secretes can be considered similar to ConfigMaps but the main difference between them is that they are specially designed to store and hold confidential data.
 
 Things to remember:
+* Secrets can be used as a pod environment variable.
 * Secrets are not encrypted, they are encoded.
-* Secrets are not encrypted in ETCD, enables encryption at rest.
-* Do not check-in Secret object to source code manager (GitHub) along with code.
+* Secrets are not encrypted in ETCD, they are enables encryption at rest.
+* Do not store Secrets / confidential information in source code manager (GitHub) along with code.
 * Anyone have access to create a pods in a namespace can access the secrets in the same namespace. To prevent this configure least-privilege access to Secrets (RBAC).
 * Consider third party secrets store providers like AWS, Azure, GCP, Terraform vault.
-* An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
+* An information is stored through API server in etcd and this information can read by anyone so secrets is used when a stored information has some sensitive data like token or passwords that can't be stored in etcd as anyone can read those critical information.
 * With the secrets the data is first encrypted at REST than stored in etcd, but what is anyone can run "kubectl describe secrets" and get the information stored in Secrets.
 * To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
-
-
+  
 **Types of Secrets**
 
 When creating a Secret, you can specify its type using the type field of the Secret resource.
@@ -841,7 +835,7 @@ When creating a Secret, you can specify its type using the type field of the Sec
 
 **Opaque Secrets**
 
-Opaque is the default Secret type if you don't specify a type in a Secret manifest. When you create a Secret using kubectl, you must use the generic subcommand to indicate an Opaque Secret type.
+Opaque is the default Secret type if you don't specify a type in a Secret manifest. When you create a Secret using kubectl, you must use the **generic** subcommand to indicate an Opaque Secret type.
 
 **Practical**
 
@@ -863,13 +857,13 @@ Create multiple secrets through --from-literal command multiple times
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/064162b0-5d83-4f3e-b095-fb0304e55c16)
 
-Note: Here, we are creating a manifest file and the Username and password are not base64 encoded so the format will not be supported.
+Note: Here, we are creating a manifest file and the Username and password are not base64 encoded so the format will not be accepted.
 
 Wrong:
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/63171e4b-2017-4e5a-bee3-d00d706181e9)
 
-Corrert way of doing it:
+Corrert:
 
     echo -n 'mysql' | base64
 
@@ -891,6 +885,22 @@ The way we can encoded it can easily decoded also, check below
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/c5a3b8ea-0243-4a75-8169-4799c1783aaa)
 
+
+Two ways to inject a secrets with Pod defintion file:
+
+A - Here pod created but status is Error because we have'nt created a secret
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/21991d32-caf8-4890-8114-9ea7f560d90a)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d771d036-607b-425e-9146-b22db37aaf12)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/8411a741-f953-490c-bec8-ca553a30f62a)
+
+B - Use "envFrom" parameter in manifest. Now create a secret
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/a83c8436-7f8c-417a-a30c-7de3a215fd0d)
+
+    kubectl create secret generic app-secret-1 --from-literal=Username=mysql --from-literal=Password=paswrd
 
 
 
