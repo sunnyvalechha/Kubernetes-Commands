@@ -855,9 +855,11 @@ Imparative Way:
 
     kubectl describe secret
 
-Create multiple secrets by mentione --from-literal command multiple times
+Create multiple secrets through --from-literal command multiple times
 
     kubectl create secret generic app-secret1 --from-literal=DB_Host=mysql --from-literal=DB2=Postgresql --from-literal=DB3=MariaDB
+
+    kubectl create secret generic app-secret-1 --from-literal=Username=mysql --from-literal=Password=paswrd
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/064162b0-5d83-4f3e-b095-fb0304e55c16)
 
@@ -888,6 +890,8 @@ The way we can encoded it can easily decoded also, check below
     echo 'bXlzcWw=' | base64 --decode; echo
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/c5a3b8ea-0243-4a75-8169-4799c1783aaa)
+
+
 
 
 
