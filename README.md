@@ -828,16 +828,24 @@ Things to remember:
 * Do not check-in Secret object to source code manager (GitHub) along with code.
 * Anyone have access to create a pods in a namespace can access the secrets in the same namespace. To prevent this configure least-privilege access to Secrets (RBAC).
 * Consider third party secrets store providers like AWS, Azure, GCP, Terraform vault.
+* An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
+* With the secrets the data is first encrypted at REST than stored in etcd, but what is anyone can run "kubectl describe secrets" and get the information stored in Secrets.
+* To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
 
-An information is stored through API server in etcd and this information can read by anyone so secrets is used when a store information has some sensitive information like token or passwords that can't be stored in etcd as anyone can read those critical information.
 
-With the secrets the data is first encrypted at REST than stored in etcd, but what is anyone can run "kubectl describe secrets" and get the information stored in Secrets.
+**Types of Secrets**
 
-To prevent this kubernetes suggested to use strong RBAC. Ex: no-one have the access to the secrets this concecpt is called as 'least privilege' in kubernetes
+When creating a Secret, you can specify its type using the type field of the Secret resource.
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/40e4a571-9435-43c3-a0fd-5d8c2ca23897)
+
+**Opaque Secrets**
+
+Opaque is the default Secret type if you don't specify a type in a Secret manifest. When you create a Secret using kubectl, you must use the generic subcommand to indicate an Opaque Secret type.
 
 **Practical**
 
-Imparative: 
+Imparative Way: 
 
     kubectl create secret generic <secret-name> --from-literal=<key>=<value>
 
@@ -850,6 +858,38 @@ Imparative:
 Create multiple secrets by mentione --from-literal command multiple times
 
     kubectl create secret generic app-secret1 --from-literal=DB_Host=mysql --from-literal=DB2=Postgresql --from-literal=DB3=MariaDB
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/064162b0-5d83-4f3e-b095-fb0304e55c16)
+
+Note: Here, we are creating a manifest file and the Username and password are not base64 encoded so the format will not be supported.
+
+Wrong:
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/63171e4b-2017-4e5a-bee3-d00d706181e9)
+
+Corrert way of doing it:
+
+    echo -n 'mysql' | base64
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/c35abb2d-e5e6-45da-9038-838982c6626c)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/cf49d7db-bc63-4f31-ba78-b6ded767d210)
+
+Now the manifest file is correct and secret will be created
+
+But this process have a drawbacks, below command and you can see the encoded value given to the secret.
+ 
+    kubectl get secrets app-secret-1 -o yaml
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/770964ae-835d-410e-b02c-22afdabff5ee)
+
+The way we can encoded it can easily decoded also, check below
+
+    echo 'bXlzcWw=' | base64 --decode; echo
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/c5a3b8ea-0243-4a75-8169-4799c1783aaa)
+
+
 
 
 
