@@ -902,6 +902,17 @@ B - Use "envFrom" parameter in manifest. Now create a secret
 
     kubectl create secret generic app-secret-1 --from-literal=Username=mysql --from-literal=Password=paswrd
 
+* Secrets can be see by another method, Go to document link attached on heading, we can see the password like mention in snap below
+
+      ETCDCTL_API=3 etcdctl \
+        --cacert=/etc/kubernetes/pki/etcd/ca.crt   \
+       --cert=/etc/kubernetes/pki/etcd/server.crt \
+       --key=/etc/kubernetes/pki/etcd/server.key  \
+       get /registry/secrets/default/my-secret | hexdump -C
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/08ef4750-06b3-473f-941c-3c54398ad560)
+
+Solution, How to encrypt the data at REST
 
 
 
