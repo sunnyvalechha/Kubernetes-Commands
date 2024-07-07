@@ -914,6 +914,51 @@ B - Use "envFrom" parameter in manifest. Now create a secret
 
 Solution, How to encrypt the data at REST
 
+# Encrypt data at REST
+
+ps -aux | grep kube-api | grep "encryption-provider-config"		#If not output means no encryption enabled.
+
+# Need to create manifest encryption file.
+
+head -c 32 /dev/urandom | base64					# Generate a random key
+dkPPQ/lM8Cyle9QX0kDUSOoU5bTPF/HUBG2oKL/VTb8= 
+
+vim secretkey.yaml
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: dkPPQ/lM8Cyle9QX0kDUSOoU5bTPF/HUBG2oKL/VTb8=
+      - identity: {}
+		
+mkdir /etc/kubernetes/enc
+mv secretkey.yaml /etc/kubernetes/enc/
+
+vim /etc/kubernetes/manifests/kube-apiserver.yaml
+
+- --encryption-provider-config=/etc/kubernetes/enc/secretkey.yaml		# Add the list in last
+
+- name: enc																# Add this section at last under volumeMounts: section
+  mountPath: /etc/kubernetes/enc
+  readonly: true
+  
+
+  - name: enc												# Add in section under volumes: (below volumeMounts:)
+    hostPath:
+      path: /etc/kubernetes/enc
+      type: DirectoryOrCreate
+
+kubectl get pod									# After making above changes this command should give output(whatever pod or no pod)
+crictl pods										# check pods with containerd (kube-apiserver-controlplane) this pod
+ps aux | grep kube-api | grep encr				# --encryption-provider-config=/etc/kubernetes/enc/secretkey.yaml
+kubectl create secret generic new-secret --from-literal=key2=topsecret	# Create new secret to see if encryption is fine.
+ETCDCTL_API=3 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key get /registry/secrets/default/new-secret | hexdump -C # Validate, change secret name
+
 
 
 
