@@ -808,7 +808,28 @@ Create service account another way
 
 # Configmaps
 
-IT is an API object that is mainly used to store non-confidential data. The data that is stored in ConfigMap is stored as key-value pairs. ConfigMaps are configuration files that may be used by pods as command-line arguments, environment variables, or even as configuration files on a disc.
+It is an API object mainly used to store non-confidential data. Data stored in ConfigMap is stored as key-value pairs. ConfigMaps are configuration files that pods may use as command-line arguments, environment variables, or configuration files on a disc.
+
+Commands: Imperative approach
+
+	kubectl create configmap --help
+
+# Create a file and put variables into a file.
+
+# APP_COLOR: blue
+# APP_MODE: prod
+
+	kubectl create configmap my-config --from-file=/root/map.txt
+ 	kubectl get configmap
+  	kubectl describe configmaps my-config
+
+# Direct in command line
+	
+ 	kubectl create configmap new-config --from-literal=Name=Sunny
+
+Commands: Declarative approach
+
+
 
 # Secrets
 
