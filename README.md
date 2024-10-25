@@ -2,15 +2,15 @@
 
 * Introduction and Architecture of Kubernetes
 * Difference between monolithic and microservice architecture.
-* Controllers and worker nodes their keypoints and their working pattern.
-* What is Pod and how it works.
+* Controllers and worker nodes are the key points of their working pattern.
+* What is Pod and how it works?
 * Namespaces.
 * Deployments
 * Replicasets
 * Kubernetes Services
 * Ingress
-* Cluster maintainence Drain, Cordon and Uncordon
-* Imparative and Declaritive commands.
+* Cluster maintenance Drain, Cordon, and Uncordon
+* Imparative and declarative commands.
 * Role Base Access Control (RBAC)
 * Service Accounts
 * Labels and Selectors
@@ -18,7 +18,7 @@
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
 * Daemonsets
-* Enviroment Variable in Kubernetes with Config maps and Secrets
+* Environment Variable in Kubernetes with Config maps and Secrets
 * Security and Certificate details
 * Pause Containers
 
@@ -27,18 +27,18 @@
 
 Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
 
-Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applicatons.
+Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applications.
 
 # Docker vs Container D
 
-* At the begining of container Era, there were only tool to run container is Docker. Rkt is there but docker's user experience is much better than rkt. Then kubernetes came to orchestrate Docker and did'nt support any other container solutions. 
-* Kubernetes grew in popularity and other container runtime wanted to work with kubernetes.
+* At the beginning of the container Era, the only tool for running containers was Docker. Rkt is there, but Docker's user experience is much better than Rkt's. Then Kubernetes came to orchestrate Docker and didn't support any other container solutions. 
+* Kubernetes grew in popularity and other container runtimes wanted to work with Kubernetes.
 * So Kubernetes introduce and Interface called **Container Runtime Interface** (CRI).
 * CRI allows any vendor to work as a container runtime for Kubernetes.
-* Only thing they have to maintain the OCI standards
-* OCI stands for **Open container Initiative** and consist of ImageSpec and RuntimeSpec.
-* Imagespec means specifications how and image should be built.
-* Runtimespec is define the standards how any container runtime should be developed.
+* The only thing they have to maintain the OCI standards
+* OCI stands for **Open container Initiative** and consists of ImageSpec and RuntimeSpec.
+* Imagespec means specifications of how and image should be built.
+* Runtimespec defines the standards of how any container runtime should be developed.
 * So keeping these standards in mind that can be used by anyone to work with Kubernetes, however Docker was'nt built to support the CRI standards because it was present way before than CRI introduced.
 * So Kubernetes introduced Dockershim for temporary basis.
 * Other container runtimes worked through the CRI but Docker continue to work without it as Docker consist multiple tools put together called Docker CLI, volumes, auths, security also the container runtime called runC and the daemon managed runC called ContainerD.
@@ -814,20 +814,31 @@ Commands: Imperative approach
 
 	kubectl create configmap --help
 
-# Create a file and put variables into a file.
+# Create a file and put the below-listed variables into a file.
 
 # APP_COLOR: blue
 # APP_MODE: prod
 
 	kubectl create configmap my-config --from-file=/root/map.txt
- 	kubectl get configmap
+ 	kubectl get configmap	
   	kubectl describe configmaps my-config
 
 # Direct in command line
 	
- 	kubectl create configmap new-config --from-literal=Name=Sunny
+ 	kubectl create cm my-con-1 --from-literal=Name=Sunny --from-literal=Sur=Valechha
 
 Commands: Declarative approach
+
+	apiVersion: v1
+	kind: ConfigMap
+	metadata:
+    	  name: app-config-map
+	data:
+    	  APP_COLOR: blue
+    	  APP_MODE: prod
+
+       kubectl apply -f .yaml
+
 
 
 
