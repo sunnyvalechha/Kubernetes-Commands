@@ -3,22 +3,22 @@
 * Introduction and Architecture of Kubernetes
 * Difference between monolithic and microservice architecture.
 * Controllers and worker nodes are the key points of their working pattern.
-* What is Pod and how it works?
+* What is Pod, and how does it work?
 * Namespaces.
 * Deployments
 * Replicasets
 * Kubernetes Services
 * Ingress
-* Cluster maintenance Drain, Cordon, and Uncordon
-* Imparative and declarative commands.
-* Role Base Access Control (RBAC)
+* Cluster maintenance: Drain, Cordon, and Uncordon
+* Imperative and declarative commands.
+* Role-Based Access Control (RBAC)
 * Service Accounts
 * Labels and Selectors
 * Taints and Tolerations
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
 * Daemonsets
-* Environment Variable in Kubernetes with Config maps and Secrets
+* Environment Variable in Kubernetes with Config Maps and Secrets
 * Security and Certificate details
 * Pause Containers
 
@@ -32,17 +32,28 @@ Kubernetes helps us to create mini/microservices applications while in docker we
 # Docker vs Container D
 
 * At the beginning of the container Era, the only tool for running containers was Docker. Rkt is there, but Docker's user experience is much better than Rkt's. Then Kubernetes came to orchestrate Docker and didn't support any other container solutions. 
-* Kubernetes grew in popularity and other container runtimes wanted to work with Kubernetes.
+* Kubernetes grew in popularity, and other container runtimes wanted to work with Kubernetes.
 * So Kubernetes introduce and Interface called **Container Runtime Interface** (CRI).
 * CRI allows any vendor to work as a container runtime for Kubernetes.
 * The only thing they have to maintain the OCI standards
-* OCI stands for **Open container Initiative** and consists of ImageSpec and RuntimeSpec.
-* Imagespec means specifications of how and image should be built.
+* OCI stands for **Open Container Initiative** and consists of ImageSpec and RuntimeSpec.
+* ImageSpec means specifications of how an image should be built.
 * Runtimespec defines the standards of how any container runtime should be developed.
-* So keeping these standards in mind that can be used by anyone to work with Kubernetes, however Docker was'nt built to support the CRI standards because it was present way before than CRI introduced.
-* So Kubernetes introduced Dockershim for temporary basis.
-* Other container runtimes worked through the CRI but Docker continue to work without it as Docker consist multiple tools put together called Docker CLI, volumes, auths, security also the container runtime called runC and the daemon managed runC called ContainerD.
-* So the ContainerD is CRI compatible and can work directly with Kuberntes as other runtimes do.
+* So, keeping these standards in mind, that can be used by anyone to work with Kubernetes; however, Docker wasn't built to support the CRI standards because it was present way before CRI was introduced.
+* So Kubernetes introduced Dockershim for a temporary basis.
+* Other container runtimes worked through the CRI, but Docker continues to work without it as Docker consist of multiple tools put together called Docker CLI, volumes, auths, security, also the container runtime called runC and the daemon managed runC called ContainerD.
+* So ContainerD is CRI compatible and can work directly with Kubernetes as other runtimes do.
+
+
+# Kubernetes vs Docker
+
+* Docker is a container platform.
+* Kubernetes is a tool that manages containers, called a container orchestration tool.
+* Containers are ephemeral in nature means containers can easily die due to 100's of issues.
+* Docker platform runs on a single host.
+* Docker does not have a feature of auto-healing if any containers die, is doesn't come up automatically.
+* Docker does not support any enterprise-level support (Firewall, LB, API gateway, Auto-scale, Auto-heal)
+* Kubernetes has a feature of auto-scaling, which auto distributes the load of containers.
 
 
 # Kubernetes Cluster / Architecture
