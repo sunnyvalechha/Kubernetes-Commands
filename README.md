@@ -351,9 +351,9 @@ kubectl logs <pod_name> --all-containers
 
   Example: docker run -it httpd /bin/bash
 
-- Instead of writing command on CLI write a YAML/manifest file that is enterprise level feature.
+- Instead of writing a command on CLI write a YAML/manifest file that is enterprise-level feature.
   
-- But, In a production enviroment it is not suggested to create a pod directly, instead we create a **Deployment**.
+- But, In a production environment it is not suggested to create a pod directly, instead we create a **Deployment**.
   
 - A **deployment** will create a Replicaset.
   
@@ -362,8 +362,15 @@ kubectl logs <pod_name> --all-containers
 **Deployment:** It is a object, by which we can manage the scaling of the application while maintaining desired state and actual state of the pods, we can scale up and down of the pods.
 Basically, kubernetes deployment has enterprise level feature called as Auto-healing, Auto-scaling and Zero-downtime.
 
-**Replicaset:**   It is a default controller in kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, deleted, or terminated.
-The term Replica set is replaced by Replication controller, both can be used but new and updated term is Replicaset
+**Replicaset:**   It is a default controller in Kubernetes. It ensures that a specified number of pod replicas are running at any given time. It is used to automatically replace any pods that fail, are deleted, or terminated.
+The term Replica set is replaced by Replication controller, both can be used but new and updated term is Replicaset.
+
+Kubernetes has a lot of default and custom controllers.
+
+Default: Node, Deployment, Replicaset, Service, Cronjob, StatefulSet (controllers)
+Custom: ArgoCD
+
+
 
 
 vim deployment.yaml
