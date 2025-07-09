@@ -236,6 +236,12 @@ complete -o default -F __start_kubectl k
     
   * Pods are ephimeral in nature, means the same pod cannot redeployed once die, but another pod will be up with the same configurations.
 
+k get pods			# Get pods information
+
+k get pods -o wide		# Get IP address on which node pod is deployed
+
+k get pods -o wide -v=7		# Verbose level 7
+
   **Kubernetes Namespaces**
 
 Namespaces are like virtual cluster inside the cluster. A namespace isolates the resources from the resources of other namespace. For example, we must have diffrent names for objects such as pods,services and deployments live in a namespace but we can have same name for these objects in two diffrent namespaces.
