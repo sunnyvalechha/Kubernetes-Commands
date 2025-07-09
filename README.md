@@ -442,6 +442,56 @@ The Short name of service is "svc"
 ![image](https://github.com/user-attachments/assets/4ac4cbda-c86c-4d25-be02-72fd73c10fa1)
 
 
+**Labels and Selectors**
+
+* Labels are key and value pair
+* Labels are used to define the object, the object can be pod or nodes.
+* Selectors are used to identify the labels.
+* Labels must be placed under metadata
+
+    kubectl get pods --show-labels
+
+Imparitive way
+
+    kubectl label pod test-abels level=mid
+
+List pod which match label
+
+    kubectl get pods -l Company=amdocs
+
+    kubectl get pods -l Company=IBM --overwrite
+
+    kubectl get pods -l Company!=amdocs   >> Not Found
+
+    kubectl delete pods -l Company!=amdocs  >> delete pod which does not match label
+    
+To check the Selectors run below command
+
+    kubectl get pods --selectors app=App1
+
+Note: In Replicaset or Deployments labels are defined at 2 places under metadata, one at top and one at bottom under template section 
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/303c4c00-0f37-417e-abea-f46ee1f0c01f)
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d4786122-23a9-440e-8f9b-7801febc7ed3)
+
+Currently 2 type of selectors are present.
+* Equlity based - which shows labels equal to or not equal to 
+* Set based  - where have to select between multiple labels
+
+  in, notin, exist
+  
+  example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+
+**Annotations**
+
+Annotations are used to provide contextual information. Labels are for kubernetes while Annotations are for Humans.
+Annotations are used for non-identifying information.
+
+    kubectl annotate pod nginx "app=nginx-web-server"
+
+![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/dadd320b-9b82-4a46-b3b4-f54872d0e5a0)
+
 # How kube-proxy and services work together | Kube-proxy working in kubernetes
 
 * Ever tried to ping cluster-IP service. It will never work as it is exist in ETCD only.
@@ -516,55 +566,7 @@ https://www.geeksforgeeks.org/what-is-kubernetes-ingress/
 
 
 
-**Labels and Selectors**
 
-* Labels are key and value pair
-* Labels are used to define the object, the object can be pod or nodes.
-* Selectors are used to identify the labels.
-* Labels must be placed under metadata
-
-    kubectl get pods --show-labels
-
-Imparitive way
-
-    kubectl label pod test-abels level=mid
-
-List pod which match label
-
-    kubectl get pods -l Company=amdocs
-
-    kubectl get pods -l Company=IBM --overwrite
-
-    kubectl get pods -l Company!=amdocs   >> Not Found
-
-    kubectl delete pods -l Company!=amdocs  >> delete pod which does not match label
-    
-To check the Selectors run below command
-
-    kubectl get pods --selectors app=App1
-
-Note: In Replicaset or Deployments labels are defined at 2 places under metadata, one at top and one at bottom under template section 
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/303c4c00-0f37-417e-abea-f46ee1f0c01f)
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d4786122-23a9-440e-8f9b-7801febc7ed3)
-
-Currently 2 type of selectors are present.
-* Equlity based - which shows labels equal to or not equal to 
-* Set based  - where have to select between multiple labels
-
-  in, notin, exist
-  
-  example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
-
-**Annotations**
-
-Annotations are used to provide contextual information. Labels are for kubernetes while Annotations are for Humans.
-Annotations are used for non-identifying information.
-
-    kubectl annotate pod nginx "app=nginx-web-server"
-
-![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/dadd320b-9b82-4a46-b3b4-f54872d0e5a0)
 
 
 
