@@ -433,6 +433,14 @@ The Short name of service is "svc"
   2. NodePort: NodePort services are accessible outside the cluster. It creates a mapping of pods to its hosting node/machine on a static port. For example, you have a node with IP address 10.0.0.20 and a Redis pod running under it. NodePort will expose 10.0.0.20:30038, assuming the port exposed is 30038, which you can then access outside the Kubernetes cluster.
 
   3. Load Balancer: This service type creates load balancers in various Cloud providers like AWS, GCP, Azure, etc., to expose our application to the Internet. The Cloud provider will provide a mechanism for routing the traffic to the services. The most common example usage of this type is for a website or a web app.
+ 
+* Practical: Create 2 yaml files, 1 is for deployment, 1 is for service
+
+![image](https://github.com/user-attachments/assets/65578ba0-2993-465f-9ef5-dc3574266728)
+
+
+![image](https://github.com/user-attachments/assets/4ac4cbda-c86c-4d25-be02-72fd73c10fa1)
+
 
 # How kube-proxy and services work together | Kube-proxy working in kubernetes
 
