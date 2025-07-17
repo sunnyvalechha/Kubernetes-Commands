@@ -3,6 +3,7 @@
 * Introduction and Architecture of Kubernetes
 * Difference between monolithic and microservice architecture.
 * Controllers and worker nodes are the key points of their working pattern.
+* Kubernetes Installation on Aws (kubeadm)
 * What is Pod, and how does it work?
 * Namespaces.
 * Deployments
@@ -229,6 +230,17 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 alias k=kubectl
 
 complete -o default -F __start_kubectl k
+
+
+# Installation
+
+URL for ports & protocols: https://kubernetes.io/docs/reference/networking/ports-and-protocols/
+
+* Create two security groups for master & control plane.
+* Create 2 instances 1 master & 1 datanode
+* 
+
+
 
   **Pods**
    
