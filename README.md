@@ -243,35 +243,39 @@ Note: If you made any mistake in installation, run **"kubeadm reset"**
 
 * Disable Swap using the below commands
 
-	swapoff -a
-	sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+		swapoff -a
+		sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 * Forwarding IPv4 and letting iptables see bridged traffic
 
-	cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-	overlay
-	br_netfilter
-	EOF
+		cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+		overlay
+		br_netfilter
+		EOF
 
-	sudo modprobe overlay
-	sudo modprobe br_netfilter
+		sudo modprobe overlay
+		sudo modprobe br_netfilter
 
-	# sysctl params required by setup, params persist across reboots
-	cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-	net.bridge.bridge-nf-call-iptables  = 1
-	net.bridge.bridge-nf-call-ip6tables = 1
-	net.ipv4.ip_forward                 = 1
-	EOF
+* sysctl params required by setup, params persist across reboots
+  
+		cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+		net.bridge.bridge-nf-call-iptables  = 1
+		net.bridge.bridge-nf-call-ip6tables = 1
+		net.ipv4.ip_forward                 = 1
+		EOF
 
-	# Apply sysctl params without reboot
-	sudo sysctl --system
+* Apply sysctl params without reboot
 
-	# Verify that the br_netfilter, overlay modules are loaded by running the following commands:
-	lsmod | grep br_netfilter
-	lsmod | grep overlay
+  		sudo sysctl --system
 
-	# Verify that the net.bridge.bridge-nf-call-iptables, net.bridge.bridge-nf-call-ip6tables, and net.ipv4.ip_forward system variables are set to 1 in your sysctl config by running the following command:
-	sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+* Verify that the br_netfilter, overlay modules are loaded by running the following commands:
+
+  		lsmod | grep br_netfilter
+		lsmod | grep overlay
+
+* Verify that the net.bridge.bridge-nf-call-iptables, net.bridge.bridge-nf-call-ip6tables, and net.ipv4.ip_forward system variables are set to 1 in your sysctl config by running the following command:
+
+  		sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
 	
 		mkdir -p $HOME/.kube
 	  	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
