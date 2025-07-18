@@ -351,7 +351,6 @@ Note: If you made any mistake in installation, run **"kubeadm reset"**
 		
 		kubectl apply -f custom-resources.yaml
 
-* 
 
 
 
@@ -364,6 +363,7 @@ Note: If you made any mistake in installation, run **"kubeadm reset"**
 
 
 
+#####################################################
   **Pods**
    
   * Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
