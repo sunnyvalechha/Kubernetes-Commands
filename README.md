@@ -542,6 +542,29 @@ Command:
 *  k scale replicaset new-replica-set --replicas=5
   
 =============================================================================
+# Deployment strategies
+
+1. Recreate
+2. Rolling Updates
+3. Blue-Green
+4. Canary
+5. Progressive Delivery
+6. A/B Testing
+7. Shadow
+
+* **Recreate deployment strategy**: involves terminating all existing pods running the old version of an application before creating new ones with the updated version. This approach ensures a clean break between the old and new versions but results in a period of downtime during the transition. **Not used in Production**
+
+* **Rolling update** is the default strategy for updating applications. It allows for the gradual replacement of old application pods with new ones, ensuring minimal downtime and continuous service availability during the update process. **No downtime and some usage in production**.
+
+* **Blue-green deployment strategy** involves having two identical environments, "blue" (the current live environment) and "green" (the environment with the new application version), to facilitate zero-downtime deployments. The strategy switches traffic from the live environment (blue) to the new environment (green) after thorough testing, allowing for quick rollbacks if issues arise. This used in **Prod**
+
+* **Canary deployment** strategy allows for the gradual rollout of a new application version (the "canary") to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for early detection of issues in the new version before it impacts all users.
+
+* Strategy 5, 6 and 7 generally not used in production and it required Argo CD 
+
+
+
+=============================================================================
 # Service
 
 Document used by Densify: https://www.densify.com/kubernetes-autoscaling/kubernetes-service-load-balancer/
