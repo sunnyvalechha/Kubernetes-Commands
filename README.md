@@ -540,6 +540,22 @@ Even before deleting the pod, the new pod will created
 Command:
 
 *  k scale replicaset new-replica-set --replicas=5
+
+=============================================================================
+# Requests and Limits
+
+* **Memory resource units**
+
+Limits and requests for memory are measured in bytes. You can express memory as a plain integer or as a fixed-point number using one of these quantity suffixes: E, P, T, G, M, k. You can also use the power-of-two equivalents: Ei, Pi, Ti, Gi, Mi, Ki. For example, the following represent roughly the same value:
+
+* 128974848, 129e6, 129M,  128974848000m, 123Mi
+
+Pay attention to the case of the suffixes. If you request 400m of memory, this is a request for 0.4 bytes. Someone who types that probably meant to ask for 400 mebibytes (400Mi) or 400 megabytes (400M).
+
+Error Faced:
+
+1. Insufficient memory
+2. OOM error (out of memory)
   
 =============================================================================
 # Deployment strategies
@@ -560,7 +576,13 @@ Command:
 
 * **Canary deployment** strategy allows for the gradual rollout of a new application version (the "canary") to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for early detection of issues in the new version before it impacts all users.
 
-* Strategy 5, 6 and 7 generally not used in production and it required Argo CD 
+* Strategies 5, 6, and 7 are generally not used in production and require Argo CD
+
+Practicals:
+
+* kubectl create ns recreate
+* kubectl get pods -n recreate
+  
 
 
 
