@@ -540,35 +540,35 @@ Even before deleting the pod, the new pod will created
 Command:
 
 *  k scale replicaset new-replica-set --replicas=5
-*  
-
+  
+=============================================================================
 # Service
 
 Document used by Densify: https://www.densify.com/kubernetes-autoscaling/kubernetes-service-load-balancer/
 
-* In the World of kubernetes the pods are created through replicaset via deployment and the pods can be easily dead and non operation that is fine, but the IP address of the pod will be changed every time when the pod is dead, that is the Issue kubernetes services are resolving.
+* In the World of Kubernetes, the pods are created through a replicaset via deployment, and the pods can be easily dead and non-operational, which is fine. Still, the IP address of the pod will be changed every time the pod dies, which is the issue that Kubernetes services are resolving.
 
-* On top of deployemnt Service will be created. So instead of accessing pod directly the request will re-direct to the Service and acts as a **Load Balancer** because it uses a component called as kube-proxy.
+* On top of the deployment Service will be created. So instead of accessing the pod directly, the request will redirect to the Service and acts as a **Load Balancer** because it uses a component called kube-proxy.
 
-* Here, service will directly connected to pods but there might a scnerio where service also faced the same problem because the pod Ip can be changed. So service also resolving this issue via **service discovery** by using **Labels and Selectors**.
+* Here, service will be directly connected to pods, but there might be a scenario where service also faces the same problem because the pod IP can be changed. So service also resolves this issue via **service discovery** by using **Labels and Selectors**.
 
-* Another thing that service offers is **Expose the pod to external world**.
+* Another thing that the service offers is **Expose the pod to the external world**.
 
-The Short name of service is "svc"
+The Short name of the service is "svc"
 
-* Whenever a service is created an endpoint is automatically created by the same name.
+* Whenever a service is created, an endpoint is automatically created by the same name.
 
       kubectl describe service/<service-name>
 
 * Types of Services:-
   
-  1. ClusterIP: This is the default service, If we do not mention any type in manifest file so ClusterIP automatically selected. We cannot use the IP outside the cluster when used as ClusterIP basically it is accessible within the cluster. Dependent applications can interact with other applications internally using the ClusterIP service.
+  1. ClusterIP: This is the default service. If we do not mention any type in the manifest file so ClusterIP is automatically selected. We cannot use the IP outside the cluster when used as ClusterIP; basically, it is accessible within the cluster. Dependent applications can interact with other applications internally using the ClusterIP service.
 
-  2. NodePort: NodePort services are accessible outside the cluster. It creates a mapping of pods to its hosting node/machine on a static port. For example, you have a node with IP address 10.0.0.20 and a Redis pod running under it. NodePort will expose 10.0.0.20:30038, assuming the port exposed is 30038, which you can then access outside the Kubernetes cluster.
+  2. NodePort: NodePort services are accessible outside the cluster. It creates a mapping of pods to their hosting node/machine on a static port. For example, you have a node with IP address 10.0.0.20 and a Redis pod running under it. NodePort will expose 10.0.0.20:30038, assuming the port exposed is 30038, which you can then access outside the Kubernetes cluster.
 
   3. Load Balancer: This service type creates load balancers in various Cloud providers like AWS, GCP, Azure, etc., to expose our application to the Internet. The Cloud provider will provide a mechanism for routing the traffic to the services. The most common example usage of this type is for a website or a web app.
  
-* Practical: Create 2 yaml files, 1 is for deployment, 1 is for service
+* Practical: Create 2 YAML files, 1 is for deployment, 1 is for service
 
 ![image](https://github.com/user-attachments/assets/65578ba0-2993-465f-9ef5-dc3574266728)
 
@@ -578,12 +578,12 @@ The Short name of service is "svc"
 
 **Labels and Selectors**
 
-* Labels are key and value pair
-* Labels are used to define the object, the object can be pod or nodes.
+* Labels are key-value pairs
+* Labels are used to define the object; the object can be a pod or a node.
 * Selectors are used to identify the labels.
 * Labels must be placed under metadata
 
-    kubectl get pods --show-labels
+    kubectl get pods-- show-labels
 
 Imparitive way
 
@@ -616,6 +616,10 @@ Currently 2 type of selectors are present.
   in, notin, exist
   
   example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+
+
+
+=============================================================================
 
 **Annotations**
 
