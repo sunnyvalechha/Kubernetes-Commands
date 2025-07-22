@@ -551,7 +551,7 @@ Error Faced:
 
 * **Blue-green deployment strategy** involves having two identical environments, "blue" (the current live environment) and "green" (the environment with the new application version), to facilitate zero-downtime deployments. The strategy switches traffic from the live environment (blue) to the new environment (green) after thorough testing, allowing for quick rollbacks if issues arise. This used in **Prod**
 
-* **Canary deployment** strategy allows for the gradual rollout of a new application version (the "canary") to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for early detection of issues in the new version before it impacts all users.
+* **Canary deployment** strategy allows for the gradual rollout of a new application version (the "canary") to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for the early detection of issues in the new version before they impact all users.
 
 * Strategies 5, 6, and 7 are generally not used in production and require Argo CD
 
@@ -559,7 +559,67 @@ Practicals:
 
 * kubectl create ns recreate
 * kubectl get pods -n recreate
-  
+* git clone https://github.com/LondheShubham153/kubestarter.git
+* cd kubestarter/Deployment_Strategies/Recreate-deployment/
+* Create a deployment and service with the "kubectl apply" command.
+* Verify: kubectl get svc -n recreate
+* kubectl describe svc recreate-service -n recreate
+* Try to access with public IP with port 3000 (not accessible).
+* kubectl port-forward --address 0.0.0.0 service/recreate-service 3000:3000 -n recreate
+
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/48e35e0d-7e57-4cdf-b9ae-2af15b872a88" />
+
+
+**Dep** 
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: online-shop
+	  namespace: recreate
+	  labels:
+	    app: online-shop
+	spec:
+	  replicas: 3
+	  strategy:
+	    type: Recreate
+	  selector:
+	    matchLabels:
+	      app: online-shop
+	  template:
+	    metadata:
+	      labels:
+	        app: online-shop
+	    spec:
+	      containers:
+	        - name: online-shop
+	          image: amitabhdevops/online_shop
+	          resources:
+	            limits:
+	              cpu: "500m"
+	              memory: "512Mi"
+	            requests:       
+	              cpu: "200m"
+	              memory: "256Mi"
+
+**svc**
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: recreate-service
+	  namespace: recreate
+	spec:
+	  selector:
+	    app: online-shop
+	  type: NodePort
+	  ports:
+	    - protocol: TCP
+	      port: 3000
+	      targetPort: 3000
+	      nodePort: 30000
+
+
 
 
 
