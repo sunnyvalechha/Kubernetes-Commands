@@ -7,6 +7,7 @@
 * What is Pod, and how does it work?
 * Namespaces.
 * Deployments
+* Deployment Strategies
 * Replicasets
 * Kubernetes Services
 * Ingress
@@ -88,7 +89,6 @@ Key Features:
  * Primary Kubernetes ‘agent’ that runs on each node
     
  * Communicates to the Master via API server
-
 
 # ETCD
 
@@ -241,126 +241,103 @@ URL for ports & protocols: https://kubernetes.io/docs/reference/networking/ports
 
 Note: If you made any mistake in installation, run **"kubeadm reset"**
 
-* Disable Swap using the below commands
+Pre-requisites:
+* Ubuntu OS (Xenial or later)
+* sudo privileges
 
-		swapoff -a
-		sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-
-* Forwarding IPv4 and letting iptables see bridged traffic
-
-		cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-		overlay
-		br_netfilter
-		EOF
-
-		sudo modprobe overlay
-		sudo modprobe br_netfilter
-
-* sysctl params required by setup, params persist across reboots
-  
-		cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-		net.bridge.bridge-nf-call-iptables  = 1
-		net.bridge.bridge-nf-call-ip6tables = 1
-		net.ipv4.ip_forward                 = 1
-		EOF
-
-* Apply sysctl params without reboot
-
-  		sudo sysctl --system
-
-* Verify that the br_netfilter, overlay modules are loaded by running the following commands:
-
-  		lsmod | grep br_netfilter
-		lsmod | grep overlay
-
-* Verify that the net.bridge.bridge-nf-call-iptables, net.bridge.bridge-nf-call-ip6tables, and net.ipv4.ip_forward system variables are set to 1 in your sysctl config by running the following command:
-
-  		sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
-	
-		mkdir -p $HOME/.kube
-	  	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-	  	sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-* Install container runtime
-
-		curl -LO https://github.com/containerd/containerd/releases/download/v1.7.14/containerd-1.7.14-linux-amd64.tar.gz
-		sudo tar Cxzvf /usr/local containerd-1.7.14-linux-amd64.tar.gz
-		curl -LO https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
-		sudo mkdir -p /usr/local/lib/systemd/system/
-		sudo mv containerd.service /usr/local/lib/systemd/system/
-		sudo mkdir -p /etc/containerd
-		containerd config default | sudo tee /etc/containerd/config.toml
-		sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-		sudo systemctl daemon-reload
-		sudo systemctl enable --now containerd
-
-* Check that containerd service is up and running
-
-		systemctl status containerd
-
-* Install runc
-
-		curl -LO https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
-		sudo install -m 755 runc.amd64 /usr/local/sbin/runc
-
-* install cni plugin
-
-		curl -LO https://github.com/containernetworking/plugins/releases/download/v1.5.0/cni-plugins-linux-amd64-v1.5.0.tgz
-		sudo mkdir -p /opt/cni/bin
-		sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.5.0.tgz
-
-* Install kubeadm, kubelet and kubectl
-
-		sudo apt-get update
-		sudo apt-get install -y apt-transport-https ca-certificates curl gpg
-		
-		curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-		echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-		
-		sudo apt-get update
-		sudo apt-get install -y kubelet=1.29.6-1.1 kubeadm=1.29.6-1.1 kubectl=1.29.6-1.1 --allow-downgrades --allow-change-held-packages
-		sudo apt-mark hold kubelet kubeadm kubectl
-		
-		kubeadm version
-		kubelet --version
-		kubectl version --client
-
-* Configure crictl to work with containerd
-
-		sudo crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
-
-* initialize control plane
-
-		sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=<private-ip-of-instance> --node-name master  # rest command will same
-
-**Note:** Copy below to the notepad that was generated after the init command completion, we will use that later.
-
-**Note:** If you forgot to copy the command, you can execute below command on master node to generate the join command again
-
-* Prepare kubeconfig
-
-		mkdir -p $HOME/.kube
-		sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-		sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-* Install calico
-
-		kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
-		
-		curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml -O
-		
-		kubectl apply -f custom-resources.yaml
+===================================Run on Both Nodes Master & Worker:=======================================================================
 
 
+	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+	echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+	sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+	chmod +x kubectl
+	mkdir -p ~/.local/bin
+	mv ./kubectl ~/.local/bin/kubectl
+
+# and then append (or prepend) ~/.local/bin to $PATH
+kubectl version --client
+
+# disable swap
+sudo swapoff -a
+
+# Create the .conf file to load the modules at bootup
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# sysctl params required by setup, params persist across reboots
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl params without reboot
+sudo sysctl --system
+
+## Install CRIO Runtime
+sudo apt-get update -y
+sudo apt-get install -y software-properties-common curl apt-transport-https ca-certificates gpg
+
+sudo curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /" | sudo tee /etc/apt/sources.list.d/cri-o.list
+
+sudo apt-get update -y
+sudo apt-get install -y cri-o
+
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+sudo systemctl start crio.service
+
+echo "CRI runtime installed successfully"
+
+# Add Kubernetes APT repository and install required packages
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt-get update -y
+sudo apt-get install -y kubelet="1.29.0-*" kubectl="1.29.0-*" kubeadm="1.29.0-*"
+sudo apt-get update -y
+sudo apt-get install -y jq
+
+sudo systemctl enable --now kubelet
+sudo systemctl start kubelet
 
 
+===================================Master Node (Only):=======================================================================
+a) Initialize the Kubernetes master node.
 
+sudo kubeadm config images pull
 
+sudo kubeadm init
 
+mkdir -p "$HOME"/.kube
+sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
+sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
 
+# Network Plugin = calico
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/calico.yaml
+ 
+ 
+ 
+After succesfully running, your Kubernetes control plane will be initialized successfully.
 
+b) Generate a token for worker nodes to join:
 
+ kubeadm token create --print-join-command
 
+c) Expose port 6443 in the Security group for the Worker to connect to Master Node
+
+Worker Node (Only):
+a) Run the following commands on the worker node.
+
+sudo kubeadm reset pre-flight checks
 
 
 #####################################################
@@ -368,11 +345,11 @@ Note: If you made any mistake in installation, run **"kubeadm reset"**
    
   * Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
     
-  * Pods are ephimeral in nature, means the same pod cannot redeployed once die, but another pod will be up with the same configurations.
+  * Pods are ephemeral in nature, which means the same pod cannot be redeployed once dies, but another pod will be up with the same configurations.
 
 k get pods			# Get pods information
 
-k get pods -o wide		# Get IP address on which node pod is deployed
+k get pods -o wide		# Get IP address on which node the pod is deployed
 
 k get pods -o wide -v=7		# Verbose level 7
 
