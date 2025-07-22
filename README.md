@@ -654,15 +654,7 @@ After making correct modifications, all pods are in a ready state.
 <img width="610" height="165" alt="image" src="https://github.com/user-attachments/assets/28261146-eb64-4a76-a89b-e4746f2d2b0c" />
 
 * kubectl port-forward --address 0.0.0.0 service/rolling-service 3000:3000 -n rollingupdate &
-* 
-
-
-
-
-
-
-
-
+* kubectl delete -f .	# delete all svc, dep, pods, rs, not files
 
 	apiVersion: apps/v1
 	kind: Deployment
@@ -712,6 +704,13 @@ After making correct modifications, all pods are in a ready state.
 	      port: 3000
 	      targetPort: 3000
 	      nodePort: 30000
+
+  # Blue-Green
+
+* kubectl create ns bluegreen
+* touch green-deployment.yaml blue-deployment-wo-footer.yml
+
+
 
 =============================================================================
 # Service
