@@ -175,12 +175,12 @@ Two operations of kube-scheduler:
 2. Scoring
 
 * Filtering based upon available CPU and RAM.
-* When two nodes having same resources then scoring comes into the picture.
+* When two nodes have the same resources, then scoring comes into the picture.
 
 # Kubelet
-- Every kubelet is talking to kube-api server.
-- Kubelet is an agent which runs on each node ensures that all containers are running.
-- Kubelet uses API server to get the configurations of the pod and ensures the containers described are up and running.
+- Every kubelet is talking to the kube-apiserver.
+- Kubelet is an agent that runs on each node and ensures that all containers are running.
+- Kubelet uses the API server to get the configurations of the pod and ensures the containers described are up and running.
 
   To check if the kubelet is running:-
 
@@ -557,6 +557,8 @@ Error Faced:
 
 Practicals:
 
+# Re-create
+
 * kubectl create ns recreate
 * kubectl get pods -n recreate
 * git clone https://github.com/LondheShubham153/kubestarter.git
@@ -565,7 +567,7 @@ Practicals:
 * Verify: kubectl get svc -n recreate
 * kubectl describe svc recreate-service -n recreate
 * Try to access with public IP with port 3000 (not accessible).
-* kubectl port-forward --address 0.0.0.0 service/recreate-service 3000:3000 -n recreate
+* kubectl port-forward --address 0.0.0.0 service/recreate-service 3000:3000 -n recreate &
 
 <img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/48e35e0d-7e57-4cdf-b9ae-2af15b872a88" />
 
@@ -620,8 +622,96 @@ Practicals:
 	      nodePort: 30000
 
 
+Note: Now, run the pods without the footer image and open a duplicate tab with the watch command to see the status of the pods re-creation
+
+* kubectl set image deployment/online-shop online-shop=amitabhdevops/online_shop_without_footer -n recreate
+* kubectl port-forward --address 0.0.0.0 service/recreate-service 3000:3000 -n recreate &
+
+<img width="634" height="121" alt="image" src="https://github.com/user-attachments/assets/6600a1f7-2fb0-41dc-ae00-443be09908ce" />
+
+* kubectl delete -f .	# delete all svc, dep, pods, rs, not files
 
 
+
+# Rolling Update
+
+* kubectl create ns rollingupdate
+* kubectl apply -f deploy-rolling.yml
+* cp recreate-service.yml rollingupdate-svc.yml
+* kubectl apply -f rollingupdate-svc.yml
+* kubectl apply -f rollingupdate-svc.yml
+* kubectl get all -A
+* I created a mistake in a deployment image, the name should be "without footer" apply this deployment and watch pods.
+
+<img width="487" height="100" alt="image" src="https://github.com/user-attachments/assets/87e45ebe-67f4-4c13-916b-60591adbc299" />
+
+<img width="534" height="163" alt="image" src="https://github.com/user-attachments/assets/806654f6-9277-47df-8b66-a8932cf86792" />
+
+* This will throw an error image ErrImagePull
+
+After making correct modifications, all pods are in a ready state.
+
+<img width="610" height="165" alt="image" src="https://github.com/user-attachments/assets/28261146-eb64-4a76-a89b-e4746f2d2b0c" />
+
+* kubectl port-forward --address 0.0.0.0 service/rolling-service 3000:3000 -n rollingupdate &
+* 
+
+
+
+
+
+
+
+
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  name: online-shop
+	  namespace: rollingupdate
+	  labels:
+	    app: online-shop
+	spec:
+	  replicas: 3
+	  strategy:
+	    type: RollingUpdate
+	    rollingUpdate:
+	      maxSurge: 1         # At the time of update how many extra pods required so no downtime will faced
+	      maxUnavailable: 0   # We don't have any unavailable pods
+	  selector:
+	    matchLabels:
+	      app: online-shop
+	  template:
+	    metadata:
+	      labels:
+	        app: online-shop
+	    spec:
+	      containers:
+	        - name: online-shop
+	          image: amitabhdevops/online_shop
+	          resources:
+	            limits:
+	              cpu: "500m"
+	              memory: "512Mi"
+	            requests:       
+	              cpu: "200m"
+	              memory: "256Mi"
+
+
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: rolling-service
+	  namespace: rollingupdate
+	spec:
+	  selector:
+	    app: online-shop
+	  type: NodePort
+	  ports:
+	    - protocol: TCP
+	      port: 3000
+	      targetPort: 3000
+	      nodePort: 30000
 
 =============================================================================
 # Service
