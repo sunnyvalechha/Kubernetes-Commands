@@ -22,6 +22,7 @@
 * Daemonsets
 * Environment Variable in Kubernetes with Config Maps and Secrets
 * Security and Certificate details
+* Secure Cluster
 * Pause Containers
 
 
@@ -1632,15 +1633,24 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 
 
 
+# Validate Kubernetes YAML with Polaris
+
+# K8 Backup & Restore on S3 Bucket using Velero
 
 
+# Secure K8 Cluster
 
+Top 7 Priorities:
 
+1. Secure your API server
+2. RBAC
+3. Network Policies
+4. Encrypted at REST (ETCD)
+5. Use secure container images
+6. Cluster monitoring
+7. Frequent Upgrades
 
-
-
-
-
+* 
 
 
 
