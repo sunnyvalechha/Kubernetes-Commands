@@ -551,7 +551,7 @@ Error Faced:
 
 * **Blue-green deployment strategy** involves having two identical environments, "blue" (the current live environment) and "green" (the environment with the new application version), to facilitate zero-downtime deployments. The strategy switches traffic from the live environment (blue) to the new environment (green) after thorough testing, allowing for quick rollbacks if issues arise. This used in **Prod**
 
-* **Canary deployment** strategy allows for the gradual rollout of a new application version (the "canary") to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for the early detection of issues in the new version before they impact all users.
+* **Canary deployment** strategy allows for the gradual rollout of a new application version to a small subset of users before releasing it to the entire user base. This approach helps minimize risk by allowing for the early detection of issues in the new version before they impact all users.
 
 * Strategies 5, 6, and 7 are generally not used in production and require Argo CD
 
@@ -839,6 +839,39 @@ In blue-deployment, change in service's section
 * kubectl get all -n bluegreen			# Check for PORT(S) in service/online-shop-blue-deployment-service
 * kubectl port-forward --address 0.0.0.0 service/online-shop-blue-deployment-service 30001:3001 -n bluegreen &
 * Google: http://3.6.86.31:30001/
+
+Note: With no downtime, we have changed our traffic from blue to green Env by just changing the name in blue-dep Service and forwarding the port.
+
+# Canary
+
+* kubectl delete -f .
+
+Note: Version 1 is Apache deployment, Version 2 is nginx deployment. When we deploy a canary, our audience can see different versions of the deployments. For this purpose, we need an ingress/ingress-controller.
+
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/kind/deploy.yaml
+	kubectl get pods -n ingress-nginx		# Generally pods went into pending state
+
+* If the ingress controller pod remains in the Pending state due to node selector issues, remove the node selector:
+
+	kubectl patch deployment ingress-nginx-controller -n ingress-nginx --type=json \
+	-p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector"}]'
+
+	kubectl get pods -n ingress-nginx
+	kubectl apply -f namespace.yaml
+	kubectl apply -f nginx-configmap.yaml		# Used as a webpage
+	kubectl apply -f apache-configmap.yaml		# Used as a webpage
+
+ 	kubectl apply -f nginx-deployment.yaml
+  	kubectl apply -f apache-deployment.yaml
+
+  Note: nginx-deployment is **v1** and apache-deployment is **v2** also, note that our app: web in all deployments, even in the canary-service.yaml
+
+	kubectl apply -f canary-service.yaml
+	kubectl apply -f ingress.yaml
+
+  
+
+
 
 
 
