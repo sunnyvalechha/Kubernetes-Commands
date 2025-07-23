@@ -649,7 +649,7 @@ Note: Now, run the pods without the footer image and open a duplicate tab with t
 
 * This will throw an error image ErrImagePull
 
-After making correct modifications, all pods are in a ready state.
+After making the necessary corrections, all pods are in a ready state.
 
 <img width="610" height="165" alt="image" src="https://github.com/user-attachments/assets/28261146-eb64-4a76-a89b-e4746f2d2b0c" />
 
@@ -708,7 +708,141 @@ After making correct modifications, all pods are in a ready state.
   # Blue-Green
 
 * kubectl create ns bluegreen
-* touch green-deployment.yaml blue-deployment-wo-footer.yml
+* touch blue-deployment-wo-footer.yml
+* kubectl apply -f blue-deployment-wo-footer.yml
+
+Note: This service runs on port 3001
+
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  labels:
+	    app: online-shop-blue
+	  name: online-shop-blue
+	  namespace: blue-green-ns
+	spec:
+	  replicas: 3
+	  selector:
+	    matchLabels:
+	      app: online-shop-blue
+	  template:
+	    metadata:
+	      labels:
+	        app: online-shop-blue
+	    spec:
+	      containers:
+	      - image: amitabhdevops/online_shop_without_footer
+	        name: online-shop-blue
+	        resources:
+	          limits:
+	            cpu: "500m"
+	            memory: "512Mi"
+	          requests:
+	            cpu: "200m"
+	            memory: "256Mi"
+	
+	---
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: online-shop-blue-deployment-service
+	  namespace: blue-green-ns
+	spec:
+	  selector:
+	    app: online-shop-blue
+	  type: NodePort
+	  ports:
+	    - protocol: TCP
+	      port: 3001
+	      targetPort: 3000
+	      nodePort: 30001
+
+* touch green-deployment.yaml
+
+	apiVersion: apps/v1
+	kind: Deployment
+	metadata:
+	  labels:
+	    app: online-shop-green
+	  name: online-shop-green
+	  namespace: bluegreen
+	spec:
+	  replicas: 3
+	  selector:
+	    matchLabels:
+	      app: online-shop-green
+	  template:
+	    metadata:
+	      labels:
+	        app: online-shop-green
+	    spec:
+	      containers:
+	      - image: amitabhdevops/online_shop
+	        name: online-shop-green
+	        resources:
+	          limits:
+	            cpu: "500m"
+	            memory: "512Mi"
+	          requests:
+	            cpu: "200m"
+	            memory: "256Mi"
+	
+	---
+	apiVersion: v1
+	kind: Service
+	metadata:
+	  name: online-shop-green-deployment-service
+	  namespace: bluegreen
+	spec:
+	  selector:
+	    app: online-shop-green
+	  type: NodePort
+	  ports:
+	    - protocol: TCP
+	      port: 3000
+	      targetPort: 3000
+	      nodePort: 30000
+
+  
+* kubectl apply -f green-deployment.yaml
+
+Note: Now, we can see both blue & green deployment/pods are running
+
+<img width="899" height="305" alt="image" src="https://github.com/user-attachments/assets/e15723a9-c5fc-4597-94a2-f8506ea19dad" />
+
+* **Open another tab and run** "watch kubectl get pods -n blue-green"
+
+Run the live environment **Blue environment is Live**
+
+
+* kubectl port-forward --address 0.0.0.0 service/online-shop-blue-deployment-service 30001:3001 -n bluegreen &
+* Google: http://3.6.86.31:30001/
+
+Now, port forward the Green environment
+
+* kubectl port-forward --address 0.0.0.0 service/online-shop-green-deployment-service 30000:3000 -n bluegreen &
+* Google: http://3.6.86.31:30000/
+
+Note: on port 30000, the web page opened without a footer.
+Note: Consider that blue is a live environment. We verified that the green environment is working fine with the footer, so we have to move traffic to the Green environment.
+
+* vim blue-deployment-wo-footer.yml
+
+In blue-deployment, change in service's section 
+
+	selector:
+	    app: online-shop-green
+
+* kubectl apply -f blue-deployment-wo-footer.yml
+* pkill -f "kubectl port-forward"		# kill cache of port-forwarding
+* kubectl get all -n bluegreen			# Check for PORT(S) in service/online-shop-blue-deployment-service
+* kubectl port-forward --address 0.0.0.0 service/online-shop-blue-deployment-service 30001:3001 -n bluegreen &
+* Google: http://3.6.86.31:30001/
+
+
+
+
 
 
 
