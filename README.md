@@ -559,6 +559,11 @@ Error Faced:
 
 Practicals:
 
+**non-declarative commands:**
+
+kubectl set image deployment/nginx-deployment -n nginx-ns <container-name>=1.27.3
+
+
 # Re-create
 
 * kubectl create ns recreate
