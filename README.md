@@ -24,6 +24,7 @@
 * Security and Certificate details
 * Secure Cluster
 * Pause Containers
+* Custom Resource Definition
 
 
 # Introduction and Architecture of Kubernetes
@@ -1650,7 +1651,29 @@ Top 7 Priorities:
 6. Cluster monitoring
 7. Frequent Upgrades
 
-* 
+
+# Custom Resource Definition
+
+* Kubernetes provides a powerful API for managing resources like Pods, Deployments, and Services, but what if you need to manage resources that Kubernetes doesn’t inherently support? This is where Custom Resource Definitions (CRDs) come in. CRDs allow you to define your own custom resources, extending the Kubernetes API to fit your specific needs.
+
+* So, to extend the capabilities of the Kubernetes API, Kubernetes has 3 resources:
+1. CRD	- Custom resource definition	--> Define a new type of API for Kubernetes via yaml file 
+2. CR	- Custom resource		--> 
+3. Custom controller
+
+* Example of the Kubernetes API:
+1. Istio Mesh
+2. ArgoCD
+
+**Here are some reasons why you might want to use CRDs:**
+
+1. Abstraction: CRDs allow you to abstract away complex logic into custom resources, making it easier to manage and interact with your applications.
+2. Consistency: By defining custom resources, you ensure that your applications are consistently managed across different environments.
+3. Automation: CRDs enable automation by allowing you to define custom controllers that can watch and reconcile the state of custom resources.
+
+<img width="1365" height="617" alt="image" src="https://github.com/user-attachments/assets/1f534399-9b9f-4027-80b0-3142221d71a2" />
+
+Note: To create a custom resource in Kubernetes we must know how to write code in GoLang.
 
 
 
