@@ -233,7 +233,7 @@ alias k=kubectl
 complete -o default -F __start_kubectl k
 
 
-# Installation
+# Installation with Kubeadm
 
 URL for ports & protocols: https://kubernetes.io/docs/reference/networking/ports-and-protocols/
 
