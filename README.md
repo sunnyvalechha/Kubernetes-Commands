@@ -31,7 +31,7 @@
 
 Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
 
-Kubernetes helps us to create mini/microservices applications while in docker we create monolithic applications.
+Kubernetes helps us to create mini/microservices applications while in Docker we create monolithic applications.
 
 # Docker vs Container D
 
