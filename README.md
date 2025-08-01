@@ -561,8 +561,10 @@ Practicals:
 
 **non-declarative commands:**
 
-kubectl set image deployment/nginx-deployment -n nginx-ns <container-name>=1.27.3
-
+	kubectl set image deployment/nginx-deployment -n nginx-ns <container-name>=1.27.3
+	kubectl rollout status deployment/nginx-deployment -n nginx-ns
+	kubectl rollout history deployment/nginx-deployment -n nginx-ns
+	kubectl rollout undo deploy
 
 # Re-create
 
