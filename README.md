@@ -430,6 +430,8 @@ Run a demo pod to **Check logs**
 
 kubectl logs --since=6h <pod_name>
 
+kubectl logs <pod_name> --since-time="2025-08-21T12:00:00Z"
+
 **Get the most recent 50 lines of logs for a pod**
 
 kubectl logs --tail=50 <pod_name>
