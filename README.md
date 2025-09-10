@@ -76,7 +76,7 @@ Key Features:
 
 * **Controller Manager:** Tracks and manages the containers in the cluster
   
-* **Scheduler:** Determines which worker nodes will be used when based on the application being scheduled
+* **Scheduler:** Determines which worker nodes will be used to host the pods.
   
 * **Etcd:** A key-value store that contains the state of the cluster
 
@@ -143,7 +143,15 @@ kubeadm init
 
 # Kube-api server
 
-Primary management component in Kubernetes. When we run "kubectl" command it's first reach to Kube-APIserver. Kube-APIserver first authenticate the request and validates it, then it retreives the data from ETCD cluster and respond back. The Scheduler continuesly monitor the API server and realize that there is new pod with no node assigned. The Scheduler identifies the right node to place the new pod and communicates back to the Kube-API server. The API server then updates the information in ETCD cluster. API server passes the information to kubelet on worker node, the kubelet then creates the pod on worker node and instruct the Container Runtime Engine to deploy the application image. Once done, the kubelet updates the status back to the API server, API server updates the data back to the ETCD cluster.
+* Primary management component in Kubernetes.
+* When we run "kubectl" command it's first reach to Kube-APIserver.
+* Kube-APIserver first authenticate the request and validates it, then it retreives the data from ETCD cluster and respond back.
+* The Scheduler continuesly monitor the API server and realize that there is new pod with no node assigned.
+* The Scheduler identifies the right node to place the new pod and communicates back to the Kube-API server.
+* The API server then updates the information in ETCD cluster.
+* The API server passes the information to kubelet on worker node.
+* The kubelet then creates the pod on the worker node and instruct the Container Runtime Engine to deploy the application image.
+* Once done, the kubelet updates the status back to the API server, API server updates the data back to the ETCD cluster.
 
 Tasks API server do
 
@@ -168,17 +176,33 @@ Controller manager have two types:
 
 # Kubernetes Scheduler
 
-- It is a component of master node which is responsible for scheduling tasks for the worker nodes and storing resources information of each node.
-- When pod is created, the scheduler finds the best node to run the pod.
+* 'kube-scheduler' is the default scheduler for Kubernetes and runs as part of the control plane.
+* We can create our own scheduler and use instead of default scheduler.
+* In a cluster, Nodes that meet the scheduling requirements for a Pod are called feasible nodes.
+* If none of the nodes are suitable, the pod remains unscheduled until the scheduler is able to place it.
+* The scheduler finds feasible Nodes for a Pod with the highest score among the feasible ones to run the Pod.
+* The scheduler then notifies the API server about this decision in a process called binding.
+* kube-scheduler selects a node for the pod in a 2-step operation:
+	a. Filtering - The filtering step finds the set of Nodes where it's feasible to schedule the Pod as per the enough available resources to meet a Pod's specific resource requests.
+	b. Scoring - the scheduler ranks the remaining nodes to choose the most suitable Pod placement. The scheduler assigns a score to each Node that survived filtering.
+* Finally, kube-scheduler assigns the Pod to the Node with the highest ranking.
 
-Two operations of kube-scheduler:
+* Note: Check if there's a scheduler or not, if not then we have to manually schedule a pod like below.  Command: kubectl get pods -n kube-system
 
-1. Filtering
-2. Scoring
+* Check for nodeName in yaml file to add the scheduling feature:
 
-* Filtering based upon available CPU and RAM.
-* When two nodes have the same resources, then scoring comes into the picture.
-
+			---
+			apiVersion: v1
+			kind: Pod
+			metadata:
+			  name: nginx
+			spec:
+			  nodeName: node01
+			  containers:
+			  -  image: nginx
+			     name: nginx
+			...
+  
 # Kubelet
 - Every kubelet is talking to the kube-apiserver.
 - Kubelet is an agent that runs on each node and ensures that all containers are running.
