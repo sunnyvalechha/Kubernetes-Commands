@@ -961,6 +961,7 @@ The Short name of the service is "svc"
 		environment = production
 		tier != frontend
 
+		kubectl get pods --selector env=dev --no-headers | wc -l   # either use '--selector' or '-l' both are same.
 		kubectl get pods -l environment=production,tier=frontend
 		kubectl get pods -l Company=amdocs
     	kubectl get pods -l Company=IBM --overwrite
@@ -1654,7 +1655,16 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 
 # Taints and Tolerations
 
+- Kubernetes schedules workloads across nodes based on resource availability and constraints. But what if you want to prevent certain workloads from running on specific nodes? That’s where Taints and Tolerations come in.
 
+* Taints are applied to nodes to hold-off specific pods unless those pods have a matching toleration.
+* Tolerations are applied to pods, allowing them to bypass taints and run on tainted nodes.
+* Labels are used to attract/schedule pods to certain nodes and taints are used to repel pods away from certain nodes.
+
+- Kubernetes supports three taint effects:
+1. NoSchedule → Prevents pods from being scheduled on the node unless they have a matching toleration.
+2. PreferNoSchedule → Softly discourages scheduling pods on the node but does not enforce it.
+3. NoExecute → Immediately evicts existing pods unless they have a matching toleration.
 
 # Kube-bench (Security and compliance)
 
