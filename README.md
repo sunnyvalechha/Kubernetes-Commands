@@ -951,28 +951,34 @@ The Short name of the service is "svc"
 
 **Labels and Selectors**
 
-* Labels are key-value pairs
-* Labels are used to define the object; the object can be a pod or a node.
+* Labels are key/value pairs that are attached to objects such as Pods, ReplicaSet, Deployments, Services, etc..
+* In manifest file Labels must be placed under metadata.
 * Selectors are used to identify the labels.
-* Labels must be placed under metadata
+* Currently 2 type of selectors are present (Equlity based and Set based)
+
+1. Equlity based - which shows labels equal to or not equal to
+
+		environment = production
+		tier != frontend
+
+		kubectl get pods -l environment=production,tier=frontend
+		kubectl get pods -l Company=amdocs
+    	kubectl get pods -l Company=IBM --overwrite
+   		kubectl get pods -l Company!=amdocs   # Not Found
+		kubectl delete pods -l Company!=amdocs  # delete pod which does not match label
+
+3. Set based  - where have to select between multiple labels - (in, notin, exist)
+
+		kubectl get pods -l 'environment in (production),tier in (frontend)'
+		kubectl get pods -l 'environment,environment notin (frontend)'
 
     kubectl get pods-- show-labels
 
-Imparitive way
+- Set label Imparitive way
 
-    kubectl label pod test-abels level=mid
-
-List pod which match label
-
-    kubectl get pods -l Company=amdocs
-
-    kubectl get pods -l Company=IBM --overwrite
-
-    kubectl get pods -l Company!=amdocs   >> Not Found
-
-    kubectl delete pods -l Company!=amdocs  >> delete pod which does not match label
+    kubectl label pod testpod level=mid
     
-To check the Selectors run below command
+- To check the Selectors run below command
 
     kubectl get pods --selectors app=App1
 
@@ -982,24 +988,25 @@ Note: In Replicaset or Deployments labels are defined at 2 places under metadata
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/d4786122-23a9-440e-8f9b-7801febc7ed3)
 
-Currently 2 type of selectors are present.
-* Equlity based - which shows labels equal to or not equal to 
-* Set based  - where have to select between multiple labels
+		apiVersion: v1
+		kind: Pod
+		metadata:
+		  name: label-demo
+		  labels:
+		    environment: production
+		    app: nginx
+		spec:
+		  containers:
+		  - name: nginx
+		    image: nginx:1.14.2
 
-  in, notin, exist
-  
-  example: "env in (development, prod, dev)", "env notin (development, prod, dev)"
+# Annotations
 
+* Annotations are used to provide contextual information.
+* Labels are for kubernetes while Annotations are for Humans.
+* Annotations are used for non-identifying information just like mobile number, email id, or a application version, to mention in the yaml file.
 
-
-=============================================================================
-
-**Annotations**
-
-Annotations are used to provide contextual information. Labels are for kubernetes while Annotations are for Humans.
-Annotations are used for non-identifying information.
-
-    kubectl annotate pod nginx "app=nginx-web-server"
+    kubectl annotate pod nginx "app=nginx-web-server-new-deployment"
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/dadd320b-9b82-4a46-b3b4-f54872d0e5a0)
 
