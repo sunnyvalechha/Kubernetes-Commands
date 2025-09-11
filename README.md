@@ -15,8 +15,10 @@
 * Imperative and declarative commands.
 * Role-Based Access Control (RBAC)
 * Service Accounts
-* Labels and Selectors
+* Labels, Selectors & Annotations
 * Taints and Tolerations
+* Node Selector
+* Node Affinity
 * Volumes, Persistent volume, Persistent volume claim
 * Backup and Restore
 * Daemonsets
@@ -1061,10 +1063,33 @@ Note: In Replicaset or Deployments labels are defined at 2 places under metadata
 * You can assign a weight to preferred rules, allowing you to prioritize certain preferences over others.
 * Similar to hard affinity, **ignoredDuringExecution** means label changes after scheduling do not impact running pods.
 
+* Add the affinity section under "spec.template.spec".
 
+Example: 1
 
+		affinity:
+		        nodeAffinity:
+		          requiredDuringSchedulingIgnoredDuringExecution:
+		            nodeSelectorTerms:
+		            - matchExpressions:
+		              - key: color
+		                operator: In
+		                values:
+		                - blue
 
+<img width="480" height="563" alt="image" src="https://github.com/user-attachments/assets/67572977-9e92-435b-8db1-1ee72fd8280c" />
 
+		kubectl get nodes --show-labels
+
+Example: 2
+
+		affinity:
+		        nodeAffinity:
+		          requiredDuringSchedulingIgnoredDuringExecution:
+		            nodeSelectorTerms:
+		            - matchExpressions:
+		              - key: node-role.kubernetes.io/control-plane
+		                operator: Exists
 
 
 
