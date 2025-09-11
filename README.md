@@ -1673,10 +1673,6 @@ Imparitive command - taints (Node level):
 		kubectl taint nodes node01 app=blue:NoSchedule
 		kubectl taint node node01 spray=mortein:NoSchedule
 
-Imparitive command - tolerations (Pod level):
-
-		
-
 - Note: Notice, that we also have a master node and a taint is automatically set on the master node so that it will not host any pod. We can change this behavior.
 
 Yaml:
@@ -1698,6 +1694,10 @@ Yaml:
 Note: We have a same taint and tolerations on both node and Pod, hence the pod is scheduled on node01
 
 <img width="816" height="441" alt="image" src="https://github.com/user-attachments/assets/3b0d26b7-336a-433a-a407-1621a8bfb552" />
+
+- Un-taint the node:
+
+		kubectl taint nodes controlplane node-role.kubernetes.io/control-plane:NoSchedule-		# "just add '-' at last to untaint, otherwise same command for taint & un-taint"
 
 # Kube-bench (Security and compliance)
 
