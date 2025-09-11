@@ -1663,8 +1663,41 @@ Kubernetes continuesly monitors this container and if K8 does not find the pause
 
 - Kubernetes supports three taint effects:
 1. NoSchedule → Pod will not scheduled on the node unless they have a matching toleration.
-2. PreferNoSchedule → System will try to avoid placing a pod on a node, but does not enforce it.
+2. PreferNoSchedule → System will try to avoid placing a pod on a node, but does not gaurantee it.
 3. NoExecute → Immediately evicts existing pods unless they have a matching toleration.
+
+Imparitive command - taints (Node level):
+
+		kubectl describe node node01 | grep Taints*			# check if any taints exists on a node.
+		kubectl taint nodes node-name key=value:taint-effect
+		kubectl taint nodes node01 app=blue:NoSchedule
+		kubectl taint node node01 spray=mortein:NoSchedule
+
+Imparitive command - tolerations (Pod level):
+
+		
+
+- Note: Notice, that we also have a master node and a taint is automatically set on the master node so that it will not host any pod. We can change this behavior.
+
+Yaml:
+
+		apiVersion: v1
+		kind: Pod
+		metadata:
+		  name: bee
+		spec:
+		  containers:
+		  - image: nginx
+		    name: bee
+		  tolerations:
+		  - key: "spray"
+		    value: "mortein"
+		    effect: NoSchedule
+		    operator: "Equal"
+
+Note: We have a same taint and tolerations on both node and Pod, hence the pod is scheduled on node01
+
+<img width="816" height="441" alt="image" src="https://github.com/user-attachments/assets/3b0d26b7-336a-433a-a407-1621a8bfb552" />
 
 # Kube-bench (Security and compliance)
 
