@@ -1011,6 +1011,36 @@ Note: In Replicaset or Deployments labels are defined at 2 places under metadata
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/dadd320b-9b82-4a46-b3b4-f54872d0e5a0)
 
+# Node Selector
+
+* A node selector is a field in a Pod's yaml file that allows you to limit/force on which node a Pod can be scheduled on.
+* It works by matching labels applied to nodes with the key-value pairs specified in the nodeSelector field of a Pod.
+
+		kubectl label nodes <node-name> <key>=<value>
+
+		apiVersion: v1
+		kind: Pod
+		spec:
+		  name: my-pod
+		metadata:
+		- name: my-pod-for-node-selector
+		  containers:
+		  - name: nginx
+		    image: nginx
+		  nodeSelector:
+		      disktype: bigSizedisk
+
+  * Above, we have mentioned the "disktype: bigSizedisk" but how k8 know which is the bigsizeddisk?
+  * These are the key-value pairs "disktype: bigSizedisk" which are Labels assigned to the nodes.
+  * We have Label our node before creating this pod.
+
+  		kubectl label nodes node01 disktype: bigSizedisk
+
+* Once the pod is created the pod is placed on the desired node.
+* For complex rules 'Node selector' is not enough, we need to configure 'Node Affinity' rules.
+
+# Node Affinity
+
 # How kube-proxy and services work together | Kube-proxy working in kubernetes
 
 * Ever tried to ping cluster-IP service. It will never work as it is exist in ETCD only.
