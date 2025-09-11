@@ -1041,6 +1041,47 @@ Note: In Replicaset or Deployments labels are defined at 2 places under metadata
 
 # Node Affinity
 
+* Node Affinity is a mechanism that allows you to guide the Kubernetes scheduler in placing pods on specific nodes based on node labels.
+* It offers a more expressive and flexible way to control pod placement compared to the nodeSelector.
+
+- Types of Node Affinity:
+
+- Node affinity comes in two main types, "during scheduling" and "ignored during execution":
+
+1. **requiredDuringScheduling**IgnoredDuringExecution (Hard Affinity):
+
+* This is a strict rule: the pod will only be scheduled on nodes that satisfy all the specified label matching conditions.
+* If no matching node is found, the pod will remain in a **Pending state** until a suitable node becomes available.
+* **IgnoredDuringExecution** means that if a node's labels change after the pod has been scheduled, the running pod is not affected. It will not be evicted or rescheduled.
+
+2. **preferredDuringScheduling**IgnoredDuringExecution (Soft Affinity):
+
+* This is a preference rather than a strict requirement.
+* The scheduler will try to place the pod on nodes that satisfy the conditions, but if no such nodes are available, the pod can still be scheduled on other nodes.
+* You can assign a weight to preferred rules, allowing you to prioritize certain preferences over others.
+* Similar to hard affinity, **ignoredDuringExecution** means label changes after scheduling do not impact running pods.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # How kube-proxy and services work together | Kube-proxy working in kubernetes
 
 * Ever tried to ping cluster-IP service. It will never work as it is exist in ETCD only.
