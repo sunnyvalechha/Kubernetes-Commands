@@ -27,6 +27,7 @@
 * Secure Cluster
 * Pause Containers
 * Custom Resource Definition
+* Editing Pods and Deployments
 
 
 # Introduction and Architecture of Kubernetes
@@ -1712,13 +1713,14 @@ Go inside the new pod, check if the "/tmp/persistent" path must be present in th
 
 # Daemonsets and Stateful sets
 
-A DaemonSet ensures that on all nodes run a copy of a Pod. As nodes are added to the cluster, copy of Pod are added to them. As nodes are removed from the cluster, that copy should be deleted. Deleting a DaemonSet will clean up the Pods it created. 
+* A DaemonSet ensures that on all nodes run a copy of a Pod.
+* As nodes are added to the cluster, copy of Pod are added to them.
+* As nodes are removed from the cluster, that copy should be deleted.
+* Deleting a DaemonSet will clean up the Pods it created.
+* We can only create daemonset through yaml file, there is no Imparitive approach to create DS.
+* We don't need to mention Replicas count as daemonset automatically create a copy of pod on every node automatically and once deleted the pod is removed from the cluster.
 
-We can only create daemonset through yaml file, there is no seprate command of Imparitive approach to create DS.
-
-We do not need to mention Replicas count here as daemonset automatically create a copy of pod on every node automatically and delete once the node is removed from the cluster.
-
-Some typical uses of a DaemonSet are:
+- Some typical uses of a DaemonSet are:
 
 * running a cluster storage daemon on every node
 * running a logs collection daemon on every node
@@ -1726,11 +1728,12 @@ Some typical uses of a DaemonSet are:
 
 Run a daemonset: Take DS example from K8 document, create a daemonset yaml file and run a pod
 
-* kubectl get daemonset
-* kubectl describe daemonset
+		kubectl get daemonset
+		kubectl describe daemonset
 
-
-StatefulSet is the controller that manages the deployment and scaling of a set of Stateful pods. A stateful pod in Kubernetes is a pod that requires persistent storage and a stable network identity to maintain its state all the time, even during pod restarts or rescheduling. These pods are commonly used for stateful applications such as databases or distributed file systems as these require a stable identity and persistent storage to maintain data consistency.
+* StatefulSet is the controller that manages the deployment and scaling of a set of Stateful pods.
+* A stateful pod in Kubernetes is a pod that requires persistent storage and a stable network identity to maintain its state all the time, even during pod restarts or rescheduling.
+* These pods are commonly used for stateful applications such as databases or distributed file systems as these require a stable identity and persistent storage to maintain data consistency.
 
 
 # Pause Containers
