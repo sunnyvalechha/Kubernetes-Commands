@@ -28,6 +28,7 @@
 * Pause Containers
 * Custom Resource Definition
 * Editing Pods and Deployments
+* Static Pods
 
 
 # Introduction and Architecture of Kubernetes
@@ -1936,3 +1937,53 @@ Note: To create a custom resource in Kubernetes we must know how to write code i
 * So if you are asked to edit a property of a POD part of a deployment you may do that simply by running the command
 
 		kubectl edit deployment my-deployment
+
+# Static Pods
+
+- Static Pods in Kubernetes are a unique type of Pod that are managed directly by the Kubelet daemon on a specific node, rather than by the Kubernetes control plane (API server, scheduler, etc.).
+- This means they are not observed or controlled by the API server in the same way as regular Pods managed by Deployments or ReplicaSets.
+
+Key characteristics of Static Pods:
+
+* Direct Kubelet Management: The Kubelet on a node is responsible for creating, starting, and restarting static Pods based on manifest files placed in a configured directory "/etc/kubernetes/manifests/".
+* Node-Specific: Static Pods are always bound to a particular Kubelet on a specific node and cannot be scheduled across the cluster by the Kubernetes scheduler.
+
+
+# Priority classes
+
+* A PriorityClass in Kubernetes is a cluster-scoped (non-namespaced) object that allows you to define a mapping between a priority class name and an integer value representing the priority.
+* This mechanism is crucial for managing workload scheduling and resource allocation within a Kubernetes cluster.
+* Range: The value can be anything, ranging from ( 1 billion to - 2 billion ) -2,147,483,648 to 1,000,000,000
+* Higher value, higher priority: Pods with a higher PriorityClass value are considered more important and will be favored by the Kubernetes scheduler during resource allocation.
+
+Defining a priority class:
+
+		    apiVersion: scheduling.k8s.io/v1
+		    kind: PriorityClass
+		    metadata:
+		      name: high-priority
+		    value: 1000000
+		    description: "This priority class should be used for critical application components."
+
+Assigning Priority to Pods:
+
+		    apiVersion: v1
+		    kind: Pod
+		    metadata:
+		      name: my-critical-app
+		    spec:
+		      containers:
+		      - name: my-container
+		        image: my-image:latest
+		      priorityClassName: high-priority
+
+- Scheduling and Preemption:
+
+* Scheduling Order: When the Kubernetes scheduler needs to place Pods on nodes, it prioritizes Pods with higher priorityClassName values.
+* Higher priority Pods will be scheduled before lower priority ones if resources are available.
+
+* Preemption: If a cluster is under resource pressure and a higher-priority Pod needs to be scheduled but no node has sufficient resources.
+* Kubernetes can preempt (evict) lower-priority Pods from nodes to free up resources for the higher-priority Pod.
+* The preemptionPolicy field within a PriorityClass can be used to control this behavior (e.g., PreemptLowerPriority or Never).
+
+
