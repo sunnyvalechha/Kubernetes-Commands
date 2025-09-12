@@ -1731,6 +1731,35 @@ Run a daemonset: Take DS example from K8 document, create a daemonset yaml file 
 		kubectl get daemonset
 		kubectl describe daemonset
 
+* An easy way to create a DaemonSet is to start by generating a Deployment YAML using:
+
+		kubectl create deployment elasticsearch --image=registry.k8s.io/fluentd-elasticsearch:1.20 -n kube-system --dry-run=client -o yaml > fluentd.yaml
+
+* Yaml Example:
+
+		apiVersion: apps/v1
+		kind: DaemonSet
+		metadata:
+		  creationTimestamp: null
+		  labels:
+		    app: elasticsearch
+		  name: elasticsearch
+		  namespace: kube-system
+		spec:
+		  selector:
+		    matchLabels:
+		      app: elasticsearch
+		  template:
+		    metadata:
+		      creationTimestamp: null
+		      labels:
+		        app: elasticsearch
+		    spec:
+		      containers:
+		      - image: registry.k8s.io/fluentd-elasticsearch:1.20
+		        name: fluentd-elasticsearch
+		        resources: {}
+
 * StatefulSet is the controller that manages the deployment and scaling of a set of Stateful pods.
 * A stateful pod in Kubernetes is a pod that requires persistent storage and a stable network identity to maintain its state all the time, even during pod restarts or rescheduling.
 * These pods are commonly used for stateful applications such as databases or distributed file systems as these require a stable identity and persistent storage to maintain data consistency.
