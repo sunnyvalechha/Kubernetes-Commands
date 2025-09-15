@@ -1953,7 +1953,7 @@ Key characteristics of Static Pods:
 
 * A PriorityClass in Kubernetes is a cluster-scoped (non-namespaced) object that allows you to define a mapping between a priority class name and an integer value representing the priority.
 * This mechanism is crucial for managing workload scheduling and resource allocation within a Kubernetes cluster.
-* Range: The value can be anything, ranging from ( 1 billion to - 2 billion ) -2,147,483,648 to 1,000,000,000
+* Range: The value can be anything, ranging from ( 1 billion to '- 2 billion' ) -2,147,483,648 to 1,000,000,000
 * Higher value, higher priority: Pods with a higher PriorityClass value are considered more important and will be favored by the Kubernetes scheduler during resource allocation.
 
 Defining a priority class:
@@ -1964,6 +1964,7 @@ Defining a priority class:
 		      name: high-priority
 		    value: 1000000
 		    description: "This priority class should be used for critical application components."
+	  		preemptionPolicy: never # means do no kill old pods only apply on new pods/workloads
 
 Assigning Priority to Pods:
 
@@ -1985,5 +1986,16 @@ Assigning Priority to Pods:
 * Preemption: If a cluster is under resource pressure and a higher-priority Pod needs to be scheduled but no node has sufficient resources.
 * Kubernetes can preempt (evict) lower-priority Pods from nodes to free up resources for the higher-priority Pod.
 * The preemptionPolicy field within a PriorityClass can be used to control this behavior (e.g., PreemptLowerPriority or Never).
+
+		kubectl get pc		# show default priority classes which are part of the k8 cluster
+
+		kubectl describe pc system-node-critical	# see the value for any preemption policy
+
+		kubectl create pc high-priority -o yaml > hp.yml		# create new priority class then keep the required parameters
+
+* You can compare the priority classes on all pods using the following command:
+
+  		kubectl get pods -o custom-columns="NAME:.metadata.name,PRIORITY:.spec.priorityClassName"
+
 
 
