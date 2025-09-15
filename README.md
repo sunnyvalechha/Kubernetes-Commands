@@ -1999,3 +1999,8 @@ Assigning Priority to Pods:
 
 
 
+# Random Ques/Ans
+
+* Default scheduler
+
+		kubectl get pods --namespace=kube-system
