@@ -1851,17 +1851,7 @@ Note: We have a same taint and tolerations on both node and Pod, hence the pod i
 # K8 Backup & Restore on S3 Bucket using Velero
 
 
-# Secure K8 Cluster
 
-Top 7 Priorities:
-
-1. Secure your API server
-2. RBAC
-3. Network Policies
-4. Encrypted at REST (ETCD)
-5. Use secure container images
-6. Cluster monitoring
-7. Frequent Upgrades
 
 
 # Custom Resource Definition
@@ -2004,3 +1994,18 @@ Assigning Priority to Pods:
 * Default scheduler
 
 		kubectl get pods --namespace=kube-system
+
+
+# Security and Certificate details
+
+ * Secure K8 Cluster: Top 7 Priorities:
+
+1. Secure your API server
+2. RBAC
+3. Network Policies
+4. Encrypted at REST (ETCD)
+5. Use secure container images
+6. Cluster monitoring
+7. Frequent Upgrades
+
+
