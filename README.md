@@ -1998,7 +1998,7 @@ Assigning Priority to Pods:
 
 # Security and Certificate details
 
- * Secure K8 Cluster: Top 7 Priorities:
+ * Secure K8 Cluster with 7 top Priorities:
 
 1. Secure your API server
 2. RBAC
@@ -2007,5 +2007,44 @@ Assigning Priority to Pods:
 5. Use secure container images
 6. Cluster monitoring
 7. Frequent Upgrades
+
+- TLS certificates are fundamental to securing communication within a Kubernetes cluster and for accessing applications deployed on it. They provide encryption, data integrity, and authentication, preventing unauthorized access and tampering with sensitive data.
+
+* Identify the certificate file used for the kube-api server
+
+		cat kube-apiserver.yaml | grep tls*		# - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
+
+* Identify the Certificate file used to authenticate kube-apiserver as a client to ETCD Server.
+
+		cat kube-apiserver.yaml | grep etcd		# - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
+
+* Identify the key used to authenticate kubeapi-server to the kubelet server.
+
+		cat kube-apiserver.yaml | grep key*		# - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
+
+* Identify the ETCD Server Certificate used to host ETCD server.
+
+		cat etcd.yaml | grep cert-file*		# - --cert-file=/etc/kubernetes/pki/etcd/server.crt
+
+* Identify the ETCD Server CA Root Certificate used to serve ETCD Server.
+
+		cat etcd.yaml		# - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+
+* Common Name (CN) configured on the Kube API Server Certificate?
+
+		openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text | grep Subject		# Subject: CN = kube-apiserver
+
+* What is the name of the CA who issued the Kube API Server Certificate?
+
+		openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text		# Issuer: CN = kubernetes
+
+* What is the Common Name (CN) configured on the ETCD Server certificate?
+
+		openssl x509 -in /etc/kubernetes/pki/etcd/server.crt -text		# Subject: CN = controlplane
+
+* How long, from the issued date, is the Kube-API Server Certificate valid for?
+
+		cd /etc/kubernetes/pki | openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text		# check for Validity
+
 
 
