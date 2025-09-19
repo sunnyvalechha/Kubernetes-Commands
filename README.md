@@ -2086,3 +2086,21 @@ HOHdKL1dsTFFZOXEvZTJHS0dYYVZ2eHlsdUV2ejhKV05lCkdiVkhHWXFMdkdFbGNSSERzNVRhZ2U2K2V
 		  signerName: kubernetes.io/kube-apiserver-client
 		  usages:
 		  - client auth
+
+		kubectl apply -f akshay.yml
+
+* Check the status of Certificate Signing Request object
+
+  		kubectl get csr
+
+* Approve or Reject or Delete the CSR Request
+
+		kubectl certificate approve akshay
+  		kubectl certificate deny agent-smith
+  		kubectl delete csr agent-smith
+
+* create yaml from the CSR
+
+		kubectl get csr agent-smith -o yaml > csr-smith.yml
+
+
