@@ -2047,4 +2047,42 @@ Assigning Priority to Pods:
 		cd /etc/kubernetes/pki | openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text		# check for Validity
 
 
+* Generate a certificate
 
+$ Below is the certificate which already present in a file at root location named akshay.csr
+
+		-----BEGIN CERTIFICATE REQUEST-----
+		MIICVjCCAT4CAQAwETEPMA0GA1UEAwwGYWtzaGF5MIIBIjANBgkqhkiG9w0BAQEF
+		AAOCAQ8AMIIBCgKCAQEApMa4im2bDy5mFymssefGcIy3ky9dBrOQRliZXPrJn/Nt
+		7taBZeKvuTWFxdIw3E1CSeMQFTcxW3LP7FhZOqEzsYARG2zcCEhp6PK/DmfXo5D6
+		d45/qhrQbM9zcvxCgrlqPEiSdwF3ey7josMv4Evhanp32Bvae5iWQ/tHwt8ebCud
+		yrD1TJ74PoHT6SoCqIoazzxPSO33z90J3wL00ymXkOxAxP051Tr/B7aOGQqrHojE
+		evDMQSw8eJlQ2xmJFpChOyU/q6MO2p4z0zgTkfWB/yi/BKyJp304gZq+LzkeyqIn
+		Zd2BIHmdT0fne5Uol9Shx8RpdDnCZln689hs1jM2wwIDAQABoAAwDQYJKoZIhvcN
+		AQELBQADggEBAGq28u9zzazymIW+XBbOfVCD+BsiwJspcfJ3pLkOGk2gv9ulG7dP
+		R5hZyVfLbv85VgmJDPAyNW5xHm5mVpNJsNQgOWGA1FyRwHqH/IAN9x/e2OAOiqLW
+		X/njar7l2Db+Mo9DbW6DZ5obXQjyk9w7EWjPNeIaXiK/IjrbIjCTzULJfi7hlx3i
+		gQZiQ2cv/fBMiAramoHh36LmWwOzWbG8wJ/WlLQY9q/e2GKGXaVvxyluEvz8JWNe
+		GbVHGYqLvGElcRHDs5Tage6+ex+R1n6TMqhVsMsUlqSYdQ9nQG43PR2O3zPY+uQX
+		5feCtFOqaARj804jfShADbZcz7n1EdUAUhg=
+		-----END CERTIFICATE REQUEST-----
+
+
+* Create a CertificateSigningRequest object with the name akshay with the contents of the akshay.csr file. As of kubernetes 1.19, the API to use for CSR is certificates.k8s.io/v1. Please note that an additional field called signerName should also be added when creating CSR. For client authentication to the API server we will use the built-in signer kubernetes.io/kube-apiserver-client.
+
+		cat akshay.csr | base64 -w 0
+  		vi akshay.yml
+
+		---
+		apiVersion: certificates.k8s.io/v1
+		kind: CertificateSigningRequest
+		metadata:
+		  name: akshay
+		spec:
+		  groups:
+		  - system:authenticated
+		  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1ZqQ0NBVDRDQVFBd0VURVBNQTBHQTFVRUF3d0dZV3R6YUdGNU1JSUJJakFOQmdrcWhraUc5dzBCQVFFRgpBQU9DQVE4QU1JSUJDZ0tDQVFFQXBNYTRpbTJiRHk1bUZ5bXNzZWZHY0l5M2t5OWRCck9RUmxpWlhQckpuL050Cjd0YUJaZUt2dVRXRnhkSXczRTFDU2VNUUZUY3hXM0xQN0ZoWk9xRXpzWUFSRzJ6Y0NFaHA2UEsvRG1mWG81RDYKZDQ1L3FoclFiTTl6Y3Z4Q2dybHFQRWlTZHdGM2V5N2pvc012NEV2aGFucDMyQnZhZTVpV1EvdEh3dDhlYkN1ZAp5ckQxVEo3NFBvSFQ2U29DcUlvYXp6eFBTTzMzejkwSjN3TDAweW1Ya094QXhQMDUxVHIvQjdhT0dRcXJIb2pFCmV2RE1RU3c4ZUpsUTJ4bUpGcENoT3lVL3E2TU8ycDR6MHpnVGtmV0IveWkvQkt5SnAzMDRnWnErTHprZXlxSW4KWmQyQklIbWRUMGZuZTVVb2w5U2h4OFJwZERuQ1psbjY4OWhzMWpNMnd3SURBUUFCb0FBd0RRWUpLb1pJaHZjTgpBUUVMQlFBRGdnRUJBR3EyOHU5enphenltSVcrWEJiT2ZWQ0QrQnNpd0pzcGNmSjNwTGtPR2syZ3Y5dWxHN2RQClI1aFp5VmZMYnY4NVZnbUpEUEF5Tlc1eEhtNW1WcE5Kc05RZ09XR0ExRnlSd0hxSC9JQU45eC9lMk9BT2lxTFcKWC9uamFyN2wyRGIrTW85RGJXNkRaNW9iWFFqeWs5dzdFV2pQTmVJYVhpSy9JanJiSWpDVHpVTEpmaTdobHgzaQpnUVppUTJjdi9mQk1pQXJhbW9IaDM2TG1Xd096V2J
+HOHdKL1dsTFFZOXEvZTJHS0dYYVZ2eHlsdUV2ejhKV05lCkdiVkhHWXFMdkdFbGNSSERzNVRhZ2U2K2V4K1IxbjZUTXFoVnNNc1VscVNZZFE5blFHNDNQUjJPM3pQWSt1UVgKNWZlQ3RGT3FhQVJqODA0amZTaEFEYlpjejduMUVkVUFVaGc9Ci0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
+		  signerName: kubernetes.io/kube-apiserver-client
+		  usages:
+		  - client auth
