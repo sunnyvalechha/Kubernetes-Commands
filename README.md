@@ -29,6 +29,7 @@
 * Custom Resource Definition
 * Editing Pods and Deployments
 * Static Pods
+* Monitoring
 
 
 # Introduction and Architecture of Kubernetes
@@ -2104,3 +2105,14 @@ HOHdKL1dsTFFZOXEvZTJHS0dYYVZ2eHlsdUV2ejhKV05lCkdiVkhHWXFMdkdFbGNSSERzNVRhZ2U2K2V
 		kubectl get csr agent-smith -o yaml > csr-smith.yml
 
 
+# Monitoring
+
+		kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  		kubectl top node
+		kubectl top pod
+
+
+
+
+
+  
