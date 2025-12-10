@@ -152,7 +152,16 @@ KIND:
 
 		kind get clusters
 
-		
+Minikube:
+
+	Instance - minimum 2 cpu's required
+	# run with regular user
+	sudo apt-get update -y
+	sudo apt-get install docker.io -y
+	sudo usermod -aG docker ubuntu
+	curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+	sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+	minikube start
 
 # Introduction and Architecture of Kubernetes
 
