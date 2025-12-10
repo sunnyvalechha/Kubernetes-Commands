@@ -150,6 +150,10 @@ KIND:
 		
 		kind create cluster --name kind-1
 
+		kind get clusters
+
+		
+
 # Introduction and Architecture of Kubernetes
 
 Kubernetes was designed by Google and managed by the Cloud Native Computing Foundation (CNCF).
