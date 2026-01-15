@@ -364,16 +364,65 @@ One way to doing this through IP tables rules. In this case it creates iptables 
 
   - Kubernetes uses objects to represent the state of the cluster. Below are the list of kubernetes objects:
 
-    1. Namespace
-    2. Pod
-    3. Service
-    4. Deployments
-    5. Replicasets
-    6. Volumes
-    7. Secrets
-    8. Config maps
-    9. Jobs
-    10. Daemonsets
+1. bindings
+2. configmaps
+3. endpoints
+4. events
+5. limitranges
+6. namespaces
+7. persistentvolumeclaims
+8. persistentvolumes
+9. podtemplates
+10. replicationcontrollers
+11. resourcequotas
+12. secrets
+13. serviceaccounts
+14. services
+15. customresourcedefinitions
+16. apiservices
+17. daemonsets
+18. deployments
+19. replicasets
+20. statefulsets
+21. tokenreviews
+22. horizontalpodautoscalers
+23. cronjobs
+24. jobs
+25. certificatesigningrequests
+26. leases
+27. caliconodestatuses
+28. globalnetworkpolicies
+29. globalnetworksets
+30. hostendpoints
+31. ipamblocks
+32. ipamconfigs
+33. ipamhandles
+34. ippools
+35. ipreservations
+36. kubecontrollersconfigurations
+37. networkpolicies
+38. networksets
+39. endpointslices
+40. events
+41. prioritylevelconfigurations
+42. ingressclasses
+43. ingresses
+44. ipaddresses
+45. networkpolicies
+46. poddisruptionbudgets
+47. clusterrolebindings
+48. clusterroles
+49. rolebindings
+50. roles
+51. resourceclaims
+52. resourceclaimtemplates
+53. resourceslices
+54. priorityclasses
+55. csidrivers
+56. csinodes
+57. storageclasses
+58. volumeattachments
+59. volumeattributesclasses
 
 
    # Understand each object with Exmaples
