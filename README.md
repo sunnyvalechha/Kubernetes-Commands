@@ -557,6 +557,7 @@ kubectl logs <pod_name> --all-containers
 # Objects and their versions
 
       kubectl api-resources
+	  kubectl api-resources -o wide
 
 ![image](https://github.com/sunnyvalechha/Kubernetes-Commands/assets/59471885/1d047ee9-ca8f-47e2-870b-da61ac3bf02b)
 
